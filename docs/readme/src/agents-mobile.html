@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>agents-mobile</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=block" rel="stylesheet"><style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: transparent; }
+body { font-family: Inter, sans-serif; color: #f3f5f8; -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv11', 'ss01'; }
+:root { --accent: #ff6b4a; --accent-hi: #ff9a7a; --ok: #4ade80; --text: #f3f5f8; --body: #c9cfd8;
+  --muted: #9aa3b0; --dim: #6f7885; --faint: #4a515c; --line: rgba(255,255,255,.08); }
+
+.card { position: relative; overflow: hidden; border-radius: 28px; isolation: isolate;
+  background:
+    radial-gradient(var(--gw, 900px) var(--gh, 520px) at var(--gx, 50%) var(--gy, -10%), rgba(255, 107, 74, .14), transparent 70%),
+    radial-gradient(620px 440px at var(--ax, 100%) var(--ay, 112%), rgba(255, 107, 74, .06), transparent 70%),
+    linear-gradient(180deg, #0d1014, #08090b); }
+.card::before { content: ''; position: absolute; inset: 0; z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, .075) 1px, transparent 1.4px); background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(var(--gw, 900px) var(--gh, 520px) at var(--gx, 50%) var(--gy, -10%), #000, transparent 75%); }
+.card.flat::after { border-radius: 0; box-shadow: none; }
+.card::after { content: ''; position: absolute; inset: 0; border-radius: 28px; z-index: 30; pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .085), inset 0 1px 0 rgba(255, 255, 255, .06); }
+
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.03em; }
+.brand svg { display: block; filter: drop-shadow(0 8px 22px rgba(255, 107, 74, .45)); }
+h1 { font-weight: 800; letter-spacing: -.048em; line-height: 1; color: #f6f8fa; }
+.grad { background: linear-gradient(95deg, #ffa183, #ff6b4a 55%, #f2502e); -webkit-background-clip: text;
+  background-clip: text; color: transparent; }
+.lede { color: var(--muted); font-weight: 500; line-height: 1.45; letter-spacing: -.01em; }
+.pills { display: flex; gap: 12px; justify-content: center; }
+.pill { display: inline-flex; align-items: center; gap: 9px; height: 42px; padding: 0 20px; border-radius: 999px;
+  font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
+.pill.go { background: var(--accent); color: #1c0904; box-shadow: 0 10px 34px -10px rgba(255, 107, 74, .7); }
+.pill.ghost { color: #d4dae2; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .03); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(74, 222, 128, .18); }
+.center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+.win { position: relative; border-radius: 13px; overflow: hidden; background: #0a0c10;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .11), 0 44px 80px -32px rgba(0, 0, 0, .9), 0 18px 36px -18px rgba(0, 0, 0, .6); }
+.bar { position: relative; height: 34px; display: flex; align-items: center; gap: 7px; padding: 0 14px;
+  background: #12151a; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+.bar i { width: 11px; height: 11px; border-radius: 50%; background: #2b3038; }
+.bar .t { position: absolute; left: 0; right: 0; text-align: center; font-size: 12.5px; font-weight: 500; color: #7d8693;
+  letter-spacing: .01em; }
+.term { font-family: 'JetBrains Mono', monospace; color: #d7dce3; white-space: pre; font-variant-ligatures: none; }
+.term .ln { display: block; }
+.p { color: var(--accent); font-weight: 700; }
+.cwd { color: #7d8693; }
+.c { color: #f3f5f8; font-weight: 600; }
+.f { color: #8ea0b8; }
+.s { color: #e2c08d; }
+.o { color: #6f7885; }
+.k { color: #8ea0b8; }
+.n { color: #b6a4f0; }
+.v { color: #e9edf2; }
+.mut { color: #6f7885; }
+.ok { color: var(--ok); }
+.warn { color: var(--accent); }
+.b { font-weight: 700; color: #f6f8fa; }
+
+.label { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.chip { display: inline-flex; align-items: center; gap: 7px; height: 24px; padding: 0 10px; border-radius: 999px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.chip.flag { color: #ffb4a1; background: rgba(255, 107, 74, .12); box-shadow: inset 0 0 0 1px rgba(255, 107, 74, .35); }
+.chip.allow { color: #9ef0bb; background: rgba(74, 222, 128, .10); box-shadow: inset 0 0 0 1px rgba(74, 222, 128, .30); }
+.chip i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+</style></head><body style="width:540px"><div class="card" style="width:540px;padding:38px 34px;--gx:70%;--gy:-6%;--gw:640px;--gh:480px"><div class="label" style="color:var(--accent)">.claude/agents/</div><div style="margin:8px 0 24px;font-size:26px;font-weight:800;letter-spacing:-.035em">Nobody marks their own homework.</div><div style="position:relative;border-radius:18px;padding:20px 20px 20px;background:rgba(255,255,255,.025);box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)"><div style="font:700 12px JetBrains Mono;color:#6f7885;letter-spacing:.06em">01</div><div style="margin-top:10px;font-size:21px;font-weight:700;letter-spacing:-.02em;color:#f3f5f8">Spec and limits</div><div style="margin-top:6px;font-size:15px;line-height:1.5;color:#8a93a0">templates/CLAUDE.md: what to hand off, and when work counts as done.</div><div class="term" style="margin-top:14px;padding:11px 12px;border-radius:10px;background:#0a0c10;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);font-size:12px;line-height:1.7;white-space:normal"><span class="ln"><span class="mut">five sections</span></span><span class="ln"><span class="warn">&middot;</span> delegate first</span><span class="ln"><span class="warn">&middot;</span> verify claims</span><span class="ln"><span class="warn">&middot;</span> machine wins</span><span class="ln"><span class="warn">&middot;</span> dial effort</span><span class="ln"><span class="warn">&middot;</span> hooks advise</span></div></div><div style="display:flex;justify-content:center;height:30px"><svg width="12" height="28" viewBox="0 0 12 28"><path d="M6 0v24" stroke="rgba(255,255,255,.22)" stroke-width="1.6"/><path d="M1.5 20 6 26l4.5-6" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="position:relative;border-radius:18px;padding:20px 20px 20px;background:rgba(255,255,255,.025);box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)"><div style="font:700 12px JetBrains Mono;color:#6f7885;letter-spacing:.06em">02</div><div style="margin-top:10px;font-size:21px;font-weight:700;letter-spacing:-.02em;color:#f3f5f8">Agent builds</div><div style="margin-top:6px;font-size:15px;line-height:1.5;color:#8a93a0">The main session writes the change and delegates the rest.</div><div class="term" style="margin-top:14px;padding:11px 12px;border-radius:10px;background:#0a0c10;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);font-size:12px;line-height:1.7;white-space:normal"><span class="ln"><span class="mut">hands off</span></span><span class="ln">search <span class="mut">&rarr;</span> Explore</span><span class="ln">claims <span class="mut">&rarr;</span> verifier</span><span class="ln">done? <span class="mut">&rarr;</span> reviewer</span></div></div><div style="display:flex;justify-content:center;height:30px"><svg width="12" height="28" viewBox="0 0 12 28"><path d="M6 0v24" stroke="#ff6b4a" stroke-width="1.6"/><path d="M1.5 20 6 26l4.5-6" fill="none" stroke="#ff6b4a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="padding:16px;border-radius:22px;box-shadow:inset 0 0 0 1.5px rgba(255,107,74,.35);background:rgba(255,107,74,.025)"><div class="label" style="color:var(--accent);text-align:center;margin:2px 0 14px">Independent: fresh context</div><div style="position:relative;border-radius:18px;padding:20px 20px 20px;background:linear-gradient(180deg,rgba(255,107,74,.10),rgba(255,107,74,.02));box-shadow:inset 0 0 0 1px rgba(255,107,74,.45)"><div style="font:700 12px JetBrains Mono;color:#ff6b4a;letter-spacing:.06em">03</div><div style="margin-top:10px;font-size:21px;font-weight:700;letter-spacing:-.02em;color:#f3f5f8">Reviewer reads the diff</div><div style="margin-top:6px;font-size:15px;line-height:1.5;color:#8a93a0">A fresh context that did not write the code.</div><div class="term" style="margin-top:14px;padding:11px 12px;border-radius:10px;background:#0a0c10;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);font-size:12px;line-height:1.7;white-space:normal"><span class="ln"><span class="mut">checks, in order</span></span><span class="ln"><span class="warn">1</span> correctness</span><span class="ln"><span class="warn">2</span> safety</span><span class="ln"><span class="warn">3</span> convention drift</span><span class="ln"><span class="warn">4</span> simplification</span><span class="ln"><span class="mut">cites</span> file:line</span></div></div><div style="display:flex;justify-content:center;height:30px"><svg width="12" height="28" viewBox="0 0 12 28"><path d="M6 0v24" stroke="#ff6b4a" stroke-width="1.6"/><path d="M1.5 20 6 26l4.5-6" fill="none" stroke="#ff6b4a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="position:relative;border-radius:18px;padding:20px 20px 20px;background:linear-gradient(180deg,rgba(255,107,74,.10),rgba(255,107,74,.02));box-shadow:inset 0 0 0 1px rgba(255,107,74,.45)"><div style="font:700 12px JetBrains Mono;color:#ff6b4a;letter-spacing:.06em">04</div><div style="margin-top:10px;font-size:21px;font-weight:700;letter-spacing:-.02em;color:#f3f5f8">Verifier checks the claims</div><div style="margin-top:6px;font-size:15px;line-height:1.5;color:#8a93a0">Against docs, --help and source, never memory.</div><div class="term" style="margin-top:14px;padding:11px 12px;border-radius:10px;background:#0a0c10;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);font-size:12px;line-height:1.7;white-space:normal"><span class="ln"><span class="mut">verdict per claim</span></span><span class="ln"><span class="ok">CORRECT</span></span><span class="ln"><span class="s">PARTIALLY CORRECT</span></span><span class="ln"><span class="warn">FALSE</span></span><span class="ln"><span class="f">COULD NOT VERIFY</span></span><span class="ln"><span class="mut">cites</span> the source</span></div></div><div style="margin-top:12px;text-align:center;font-size:12.5px;font-weight:600;color:#ff9a7a">findings go back to the builder</div></div><div style="display:flex;justify-content:center;height:30px"><svg width="12" height="28" viewBox="0 0 12 28"><path d="M6 0v24" stroke="#4ade80" stroke-width="1.6"/><path d="M1.5 20 6 26l4.5-6" fill="none" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="position:relative;border-radius:18px;padding:20px 20px 20px;background:linear-gradient(180deg,rgba(74,222,128,.10),rgba(74,222,128,.02));box-shadow:inset 0 0 0 1px rgba(74,222,128,.45)"><div style="font:700 12px JetBrains Mono;color:#4ade80;letter-spacing:.06em">05</div><div style="margin-top:10px;font-size:21px;font-weight:700;letter-spacing:-.02em;color:#f3f5f8">Ship</div><div style="margin-top:6px;font-size:15px;line-height:1.5;color:#8a93a0">When both report back clean.</div><div class="term" style="margin-top:14px;padding:11px 12px;border-radius:10px;background:#0a0c10;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);font-size:12px;line-height:1.7;white-space:normal"><span class="ln"><span class="ok">&#10003;</span> reviewed</span><span class="ln"><span class="ok">&#10003;</span> verified</span></div></div></div></body></html>

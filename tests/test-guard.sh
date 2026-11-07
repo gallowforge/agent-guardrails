@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # Feeds sample PreToolUse payloads to the advisory hook and asserts warn/allow.
-# Usage: tests/test-guard.sh
+# Usage: tests/test-guard.sh [-v]    (-v also lists every passing case)
 set -u
+
+verbose=0
+if [ "${1:-}" = "-v" ]; then verbose=1; fi
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 hook="$here/../.claude/hooks/advisory-guard.sh"
@@ -41,6 +44,7 @@ assert "permissionDecision" not in h and "decision" not in d
   fi
   if [ "$got" = "$expect" ]; then
     pass=$((pass + 1))
+    if [ "$verbose" -eq 1 ]; then printf 'ok    %-5s  %s%s\n' "$expect" "$cmd" "$([ "$tool" = Bash ] || printf '   (tool: %s)' "$tool")"; fi
   else
     fail=$((fail + 1))
     printf 'FAIL  expected %-5s got %-5s  %s\n' "$expect" "$got" "$cmd"
@@ -89,10 +93,20 @@ check warn  'rm -rf ~/.ssh && chmod 777 .'
 
 # Non-Bash tools and malformed input are ignored silently
 check allow 'rm -rf /' Write
-out="$(printf 'not json' | run_hook)"; rc=$?
-if [ "$rc" -eq 0 ] && [ -z "$out" ]; then pass=$((pass + 1)); else fail=$((fail + 1)); echo "FAIL  malformed input"; fi
-out="$(printf '' | run_hook)"; rc=$?
-if [ "$rc" -eq 0 ] && [ -z "$out" ]; then pass=$((pass + 1)); else fail=$((fail + 1)); echo "FAIL  empty input"; fi
+silent() {
+  # $1 = label, $2 = raw stdin for the hook; expects exit 0 and no output
+  local out rc
+  out="$(printf '%s' "$2" | run_hook)"; rc=$?
+  if [ "$rc" -eq 0 ] && [ -z "$out" ]; then
+    pass=$((pass + 1))
+    if [ "$verbose" -eq 1 ]; then printf 'ok    allow  (%s)\n' "$1"; fi
+  else
+    fail=$((fail + 1))
+    echo "FAIL  $1"
+  fi
+}
+silent "malformed input" 'not json'
+silent "empty input" ''
 
 echo "guard: $pass passed, $fail failed"
 [ "$fail" -eq 0 ]

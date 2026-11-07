@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 # Checks when bin/claude injects --dangerously-skip-permissions, using a stub
 # "real" claude that prints its arguments. TTY cases use util-linux `script`.
-# Usage: tests/test-launcher.sh
+# Usage: tests/test-launcher.sh [-v]    (-v also lists every passing case)
 set -u
+
+verbose=0
+if [ "${1:-}" = "-v" ]; then verbose=1; fi
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 wrapper_dir="$(cd "$here/../bin" && pwd)"
@@ -25,6 +28,7 @@ expect() {
   got="$(printf '%s\n' "$3" | tr -d '\r' | grep '^ARGS:' | head -n1)"
   if [ "$got" = "$2" ]; then
     pass=$((pass + 1))
+    if [ "$verbose" -eq 1 ]; then printf 'ok    %-27s %s\n' "$1" "$got"; fi
   else
     fail=$((fail + 1))
     printf 'FAIL  %s\n      expected: %s\n      got:      %s\n' "$1" "$2" "$got"
