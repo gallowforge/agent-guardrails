@@ -1,0 +1,28 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Shell syntax
+        run: |
+          sh -n .claude/hooks/advisory-guard.sh
+          bash -n bin/claude tests/*.sh
+
+      - name: ShellCheck
+        run: shellcheck --severity=error .claude/hooks/advisory-guard.sh bin/claude tests/*.sh
+
+      - name: Python syntax
+        run: python3 -m py_compile bin/claude-sessions
+
+      - name: Guard tests
+        run: bash tests/test-guard.sh
+
+      - name: Launcher tests
+        run: bash tests/test-launcher.sh

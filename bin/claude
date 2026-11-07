@@ -1,0 +1,70 @@
+#!/bin/bash
+# Launch Claude Code with permission prompts bypassed in interactive sessions.
+#
+# Install by putting this directory first on PATH, ahead of the real `claude`.
+# The wrapper strips its own directory from PATH and execs the real binary.
+#
+# The flag is added ONLY for interactive terminal sessions. Non-interactive
+# runs -- scripts, cron, hooks, `-p`/`--print`, piped stdin -- are left alone,
+# so nothing automated silently inherits a no-prompt Claude.
+# It is also skipped if you pass your own permission flag, so an explicit
+# `--permission-mode plan` still wins.
+#
+# It is likewise skipped when the first argument is a CLI subcommand
+# (`claude attach`, `stop`, `agents`, `mcp`, ...). Claude's parser only treats a
+# word as a subcommand when it comes before any root option, so injecting the
+# flag ahead of it would silently demote `claude attach <id>` into a plain
+# interactive session with "attach" submitted as the prompt.
+# Regenerate the list after a Claude Code upgrade with:
+#   claude --help | sed -n '/^Commands:/,$p' | grep -E '^  [a-z]' | awk '{print $1}'
+#
+# To disable: remove this file or take its directory off PATH.
+
+set -u
+
+self_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Drop our own directory from PATH so we resolve the real binary, not ourselves.
+stripped=""
+IFS=: read -r -a _parts <<< "$PATH"
+for _p in "${_parts[@]}"; do
+  [ "$_p" = "$self_dir" ] && continue
+  stripped="${stripped:+$stripped:}$_p"
+done
+export PATH="$stripped"
+
+real="$(command -v claude || true)"
+if [ -z "$real" ]; then
+  echo "claude wrapper: could not find the real claude on PATH" >&2
+  exit 127
+fi
+
+# Subcommands as of Claude Code 2.1.261, aliases expanded.
+subcommands="agents attach auth auto-mode doctor gateway import install logs
+mcp plugin plugins project respawn rm setup-token stop kill ultrareview
+update upgrade"
+
+inject=1
+# Interactive only: both stdin and stdout must be a terminal.
+{ [ -t 0 ] && [ -t 1 ]; } || inject=0
+# Defer to any permission flag the caller supplied, and to print mode.
+for arg in "$@"; do
+  case "$arg" in
+    --dangerously-skip-permissions|--permission-mode|--permission-mode=*|-p|--print)
+      inject=0 ;;
+  esac
+done
+# Never inject ahead of a subcommand -- it stops being parsed as one.
+if [ "$#" -gt 0 ]; then
+  for _c in $subcommands; do
+    if [ "$1" = "$_c" ]; then
+      inject=0
+      break
+    fi
+  done
+fi
+
+if [ "$inject" -eq 1 ]; then
+  exec "$real" --dangerously-skip-permissions "$@"
+fi
+exec "$real" "$@"

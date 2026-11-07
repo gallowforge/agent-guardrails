@@ -1,0 +1,113 @@
+#!/usr/bin/env python3
+"""List saved Claude Code sessions for this project, newest first.
+
+Reads the transcripts on disk rather than a stored list, so it can't go
+stale. Each row gives the exact `claude --resume <id>` you need.
+
+The project is the current directory. Claude Code stores its transcripts in
+$CLAUDE_CONFIG_DIR/projects/<path with every non-alphanumeric char as "-">,
+defaulting to ~/.claude. Set CLAUDE_SESSIONS_DIR to point at a transcript
+directory directly.
+
+    claude-sessions            # all sessions, newest first
+    claude-sessions -n 10      # just the 10 most recent
+    claude-sessions keyring    # only ones whose title matches "keyring"
+"""
+import json
+import os
+import re
+import sys
+import time
+
+
+def project_dir():
+    explicit = os.environ.get("CLAUDE_SESSIONS_DIR")
+    if explicit:
+        return explicit
+    config = os.environ.get("CLAUDE_CONFIG_DIR") or os.path.expanduser("~/.claude")
+    slug = re.sub(r"[^A-Za-z0-9]", "-", os.getcwd())
+    return os.path.join(config, "projects", slug)
+
+
+def title_of(path):
+    """Last ai-title wins; fall back to the first user message."""
+    title = None
+    fallback = None
+    try:
+        with open(path, errors="replace") as fh:
+            for line in fh:
+                if '"ai-title"' not in line and '"user"' not in line:
+                    continue
+                try:
+                    rec = json.loads(line)
+                except ValueError:
+                    continue
+                if rec.get("type") == "ai-title" and rec.get("aiTitle"):
+                    title = rec["aiTitle"]
+                elif fallback is None and rec.get("type") == "user":
+                    msg = rec.get("message") or {}
+                    content = msg.get("content")
+                    if isinstance(content, str):
+                        fallback = content
+                    elif isinstance(content, list):
+                        for part in content:
+                            if isinstance(part, dict) and part.get("type") == "text":
+                                fallback = part.get("text")
+                                break
+    except OSError:
+        return None
+    text = title or fallback or "(no title)"
+    return " ".join(text.split())[:58]
+
+
+def main():
+    args = [a for a in sys.argv[1:]]
+    limit = None
+    if "-n" in args:
+        i = args.index("-n")
+        try:
+            limit = int(args[i + 1])
+        except (IndexError, ValueError):
+            sys.exit("usage: claude-sessions [-n COUNT] [FILTER]")
+        del args[i:i + 2]
+    needle = args[0].lower() if args else None
+
+    PROJECT_DIR = project_dir()
+    if not os.path.isdir(PROJECT_DIR):
+        sys.exit(f"no project dir at {PROJECT_DIR}")
+
+    rows = []
+    for name in os.listdir(PROJECT_DIR):
+        if not name.endswith(".jsonl"):
+            continue
+        path = os.path.join(PROJECT_DIR, name)
+        sid = name[:-6]
+        rows.append((os.path.getmtime(path), sid, title_of(path),
+                     os.path.getsize(path)))
+    rows.sort(reverse=True)
+
+    if needle:
+        rows = [r for r in rows if needle in (r[2] or "").lower()]
+    if limit:
+        rows = rows[:limit]
+
+    if not rows:
+        print("no matching sessions")
+        return
+
+    now = time.time()
+    print(f"{'LAST USED':>9}  {'SIZE':>6}  {'TITLE':<58}  RESUME WITH")
+    for mtime, sid, title, size in rows:
+        age = now - mtime
+        if age < 3600:
+            when = f"{int(age // 60)}m ago"
+        elif age < 86400:
+            when = f"{int(age // 3600)}h ago"
+        else:
+            when = f"{int(age // 86400)}d ago"
+        print(f"{when:>9}  {size / 1024:5.0f}K  {title:<58}  "
+              f"claude --resume {sid}")
+
+
+if __name__ == "__main__":
+    main()
