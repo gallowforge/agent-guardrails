@@ -1,0 +1,3 @@
+# The README image generator is tooling, not part of the kit; keep it out of the language stats.
+scripts/readme-visuals.py linguist-documentation
+docs/readme/src/** linguist-documentation
