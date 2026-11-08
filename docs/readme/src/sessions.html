@@ -1,64 +1,58 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>sessions</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=block" rel="stylesheet"><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>sessions</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&family=Red+Hat+Mono:wght@400;500;600;700&display=block" rel="stylesheet"><style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: transparent; }
-body { font-family: Inter, sans-serif; color: #f3f5f8; -webkit-font-smoothing: antialiased;
-  font-feature-settings: 'cv11', 'ss01'; }
-:root { --accent: #ff6b4a; --accent-hi: #ff9a7a; --ok: #4ade80; --text: #f3f5f8; --body: #c9cfd8;
-  --muted: #9aa3b0; --dim: #6f7885; --faint: #4a515c; --line: rgba(255,255,255,.08); }
+body { font-family: Barlow, sans-serif; color: var(--white); -webkit-font-smoothing: antialiased; }
+:root { --asphalt: #141413; --asphalt-2: #1b1b19; --asphalt-3: #252522; --white: #f2f0ea; --grey: #a5a297; --dim: #75726a;
+  --faint: #4a4842; --yellow: #ffc61a; --red: #e2231a; --red-hi: #ff5a48; --paper: #ece6d8; --paper-2: #e2dbca;
+  --ink: #191816; --ink-2: #4f4b44; --ink-3: #8a857a; --rule: #d3cab5; }
 
-.card { position: relative; overflow: hidden; border-radius: 28px; isolation: isolate;
-  background:
-    radial-gradient(var(--gw, 900px) var(--gh, 520px) at var(--gx, 50%) var(--gy, -10%), rgba(255, 107, 74, .14), transparent 70%),
-    radial-gradient(620px 440px at var(--ax, 100%) var(--ay, 112%), rgba(255, 107, 74, .06), transparent 70%),
-    linear-gradient(180deg, #0d1014, #08090b); }
-.card::before { content: ''; position: absolute; inset: 0; z-index: -1;
-  background-image: radial-gradient(rgba(255, 255, 255, .075) 1px, transparent 1.4px); background-size: 24px 24px;
-  -webkit-mask-image: radial-gradient(var(--gw, 900px) var(--gh, 520px) at var(--gx, 50%) var(--gy, -10%), #000, transparent 75%); }
-.card.flat::after { border-radius: 0; box-shadow: none; }
-.card::after { content: ''; position: absolute; inset: 0; border-radius: 28px; z-index: 30; pointer-events: none;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .085), inset 0 1px 0 rgba(255, 255, 255, .06); }
+.field { position: relative; overflow: hidden; isolation: isolate; background: var(--asphalt); }
+.field::after { content: ''; position: absolute; inset: 0; z-index: 40; pointer-events: none; opacity: .045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: screen; }
+.paper { position: relative; overflow: hidden; isolation: isolate; background: var(--paper); color: var(--ink); }
+.paper::after { content: ''; position: absolute; inset: 0; z-index: 40; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: multiply; filter: invert(1); }
+.abs { position: absolute; }
+.cond { font-family: 'Barlow Condensed', sans-serif; }
+.mono, .term { font-family: 'Red Hat Mono', monospace; font-variant-ligatures: none; }
+.term { white-space: pre; }
+.ln { display: block; }
+.label { font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+svg { display: block; overflow: visible; }
 
-.brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.03em; }
-.brand svg { display: block; filter: drop-shadow(0 8px 22px rgba(255, 107, 74, .45)); }
-h1 { font-weight: 800; letter-spacing: -.048em; line-height: 1; color: #f6f8fa; }
-.grad { background: linear-gradient(95deg, #ffa183, #ff6b4a 55%, #f2502e); -webkit-background-clip: text;
-  background-clip: text; color: transparent; }
-.lede { color: var(--muted); font-weight: 500; line-height: 1.45; letter-spacing: -.01em; }
-.pills { display: flex; gap: 12px; justify-content: center; }
-.pill { display: inline-flex; align-items: center; gap: 9px; height: 42px; padding: 0 20px; border-radius: 999px;
-  font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
-.pill.go { background: var(--accent); color: #1c0904; box-shadow: 0 10px 34px -10px rgba(255, 107, 74, .7); }
-.pill.ghost { color: #d4dae2; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .03); }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(74, 222, 128, .18); }
-.center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+/* shell colouring on asphalt */
+.c { color: var(--white); font-weight: 600; }
+.f { color: #cfcabd; }
+.s { color: #edd08a; }
+.o { color: var(--dim); }
+.k { color: var(--grey); }
+.n { color: var(--yellow); }
+.v { color: #ece9e1; }
+.mut { color: var(--dim); }
+.hit { color: var(--white); font-weight: 700; }
+.red { color: var(--red-hi); }
+.yel { color: var(--yellow); }
+/* on paper */
+.paper .c { color: var(--ink); font-weight: 700; }
+.paper .f { color: #3d3a34; }
+.paper .s { color: #7a5600; }
+.paper .o { color: var(--ink-3); }
+.paper .mut { color: var(--ink-3); }
+.paper .red { color: #c41d14; }
+.paper .field { color: #dedad0; }
+.paper .field .c { color: var(--white); } .paper .field .f { color: #cfcabd; } .paper .field .s { color: #edd08a; }
+.paper .field .o { color: var(--dim); } .paper .field .mut { color: var(--dim); }
+.wrap .ln { white-space: pre-wrap; padding-left: 16px; text-indent: -16px; }
 
-.win { position: relative; border-radius: 13px; overflow: hidden; background: #0a0c10;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .11), 0 44px 80px -32px rgba(0, 0, 0, .9), 0 18px 36px -18px rgba(0, 0, 0, .6); }
-.bar { position: relative; height: 34px; display: flex; align-items: center; gap: 7px; padding: 0 14px;
-  background: #12151a; border-bottom: 1px solid rgba(255, 255, 255, .06); }
-.bar i { width: 11px; height: 11px; border-radius: 50%; background: #2b3038; }
-.bar .t { position: absolute; left: 0; right: 0; text-align: center; font-size: 12.5px; font-weight: 500; color: #7d8693;
-  letter-spacing: .01em; }
-.term { font-family: 'JetBrains Mono', monospace; color: #d7dce3; white-space: pre; font-variant-ligatures: none; }
-.term .ln { display: block; }
-.p { color: var(--accent); font-weight: 700; }
-.cwd { color: #7d8693; }
-.c { color: #f3f5f8; font-weight: 600; }
-.f { color: #8ea0b8; }
-.s { color: #e2c08d; }
-.o { color: #6f7885; }
-.k { color: #8ea0b8; }
-.n { color: #b6a4f0; }
-.v { color: #e9edf2; }
-.mut { color: #6f7885; }
-.ok { color: var(--ok); }
-.warn { color: var(--accent); }
-.b { font-weight: 700; color: #f6f8fa; }
-
-.label { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-.chip { display: inline-flex; align-items: center; gap: 7px; height: 24px; padding: 0 10px; border-radius: 999px;
-  font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.chip.flag { color: #ffb4a1; background: rgba(255, 107, 74, .12); box-shadow: inset 0 0 0 1px rgba(255, 107, 74, .35); }
-.chip.allow { color: #9ef0bb; background: rgba(74, 222, 128, .10); box-shadow: inset 0 0 0 1px rgba(74, 222, 128, .30); }
-.chip i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-</style></head><body style="width:1200px"><div class="card" style="width:1200px;padding:48px;--gx:50%;--gy:-30%;--gw:1000px;--gh:480px"><div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px"><div><div class="label" style="color:var(--accent)">bin/claude-sessions</div><div style="margin-top:10px;font-size:30px;font-weight:800;letter-spacing:-.035em">Every session, one command from coming back.</div></div><div style="font-size:14px;color:#7d8693;text-align:right;line-height:1.55">Read straight from the transcripts on disk,<br>so the list cannot go stale.</div></div><div class="win" style=""><div class="bar"><i></i><i></i><i></i><span class="t">~/acme-shop  ·  claude-sessions</span></div><div class="term" style="font-size:13px;line-height:1.75;padding:18px 22px"><span class="ln"><span class="cwd">~/acme-shop</span> <span class="p">$</span> <span class="c">claude-sessions</span></span><span class="ln mut" style="font-weight:600;letter-spacing:.02em">LAST USED    SIZE  TITLE                                                       RESUME WITH</span><span class="ln"><span class="mut">   4m ago</span>    <span class="n">212K</span>  <span class="v">Fix flaky upload retry</span>                                      <span class="c">claude</span> <span class="f">--resume</span> <span class="s">928f7e5d-30fd-5a7b-86fe-233c7ca5f00d</span></span><span class="ln"><span class="mut">   2h ago</span>   <span class="n">1480K</span>  <span class="v">Migrate config loader to TOML</span>                               <span class="c">claude</span> <span class="f">--resume</span> <span class="s">df09e38d-3f83-5671-abee-ba7e12c3ca72</span></span><span class="ln"><span class="mut">   9h ago</span>    <span class="n">640K</span>  <span class="v">Paginate the orders API</span>                                     <span class="c">claude</span> <span class="f">--resume</span> <span class="s">1cc4056b-0e53-51fd-8ce6-a4410a8af11a</span></span><span class="ln"><span class="mut">   3d ago</span>     <span class="n">96K</span>  <span class="v">Add CI workflow</span>                                             <span class="c">claude</span> <span class="f">--resume</span> <span class="s">a8a20587-6e73-5231-93aa-28044c992a57</span></span><span class="ln"><span class="mut">   5d ago</span>     <span class="n">58K</span>  <span class="v">why does the login page flash white on load?</span>                <span class="c">claude</span> <span class="f">--resume</span> <span class="s">7764932d-c2e5-5ad6-a46e-6a088fa2ecfc</span></span><span class="ln"><span class="mut">  12d ago</span>   <span class="n">2210K</span>  <span class="v">Rename user_id to account_id across services</span>                <span class="c">claude</span> <span class="f">--resume</span> <span class="s">0cd3cf79-abf7-5891-946f-20506d64d92f</span></span><span class="ln"> </span><span class="ln"><span class="cwd">~/acme-shop</span> <span class="p">$</span> <span class="c">claude-sessions</span> <span class="f">-n</span> 2 api</span><span class="ln mut" style="font-weight:600;letter-spacing:.02em">LAST USED    SIZE  TITLE                                                       RESUME WITH</span><span class="ln"><span class="mut">   9h ago</span>    <span class="n">640K</span>  <span class="v">Paginate the orders API</span>                                     <span class="c">claude</span> <span class="f">--resume</span> <span class="s">1cc4056b-0e53-51fd-8ce6-a4410a8af11a</span></span></div></div></div></body></html>
+/* a reflective sign plate: black face, white keyline, four bolts */
+.plate { position: relative; background: #0c0c0b; border-radius: 12px;
+  box-shadow: inset 0 0 0 6px #0c0c0b, inset 0 0 0 8.5px var(--white), 0 22px 40px -22px #000; }
+.plate.yellow { background: var(--yellow); color: var(--ink);
+  box-shadow: inset 0 0 0 5px var(--yellow), inset 0 0 0 7.5px var(--ink), 0 22px 40px -22px #000; }
+.plate.white { background: var(--white); color: var(--ink);
+  box-shadow: inset 0 0 0 5px var(--white), inset 0 0 0 7.5px var(--ink), 0 22px 40px -22px #000; }
+.bolt { position: absolute; width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e4e1d8, #8a877f 55%, #3a3834); box-shadow: 0 1px 1.5px rgba(0,0,0,.55); }
+.bolt::after { content: ''; position: absolute; left: 1.5px; right: 1.5px; top: 3.75px; height: 1.5px;
+  background: rgba(20, 20, 18, .7); transform: rotate(var(--r, 20deg)); }
+</style></head><body style="width:1100px"><div class="paper" style="width:1100px;padding:50px 54px 34px"><svg width="0" height="0" style="position:absolute"><filter id="inkf" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.2 1.55" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></svg><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="cond" style="font-weight:800;font-size:66px;line-height:.9">TRAIN REGISTER</div><div class="mono" style="margin-top:14px;font-size:15px"><span style="color:var(--ink-3)">~/acme-shop</span> <span style="color:#c41d14;font-weight:700">$</span> <b>claude-sessions</b></div></div><div style="margin-top:4px"><div style="display:inline-block;transform:rotate(-7deg);filter:url(#inkf)"><div style="padding:8px 16px 9px;border:3.5px solid #c41d14;border-radius:6px;color:#c41d14;text-align:center;box-shadow:inset 0 0 0 2.5px var(--paper),inset 0 0 0 4px #c41d14"><div class="cond" style="font-weight:800;font-size:30px;line-height:1;letter-spacing:.08em">CANNOT GO STALE</div><div class="cond" style="margin-top:3px;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase">read from disk on every run</div></div></div></div></div><div style="position:relative;margin-top:34px;border-top:2px solid #c41d14"><div class="abs" style="top:0;bottom:0;left:100px;width:1.5px;background:#c41d14;opacity:.55"></div><div class="abs" style="top:0;bottom:0;left:174px;width:1.5px;background:#c41d14;opacity:.55"></div><div class="abs" style="top:0;bottom:0;left:562px;width:1.5px;background:#c41d14;opacity:.55"></div><div style="display:grid;grid-template-columns:100px 74px 1fr 430px;align-items:center;height:40px;border-bottom:3px double #c41d14"><div class="cond" style="padding:0 12px;font-weight:700;font-size:14px;letter-spacing:.14em;color:#c41d14;text-align:right">LAST USED</div><div class="cond" style="padding:0 12px;font-weight:700;font-size:14px;letter-spacing:.14em;color:#c41d14;text-align:right">SIZE</div><div class="cond" style="padding:0 12px;font-weight:700;font-size:14px;letter-spacing:.14em;color:#c41d14;">TITLE</div><div class="cond" style="padding:0 12px;font-weight:700;font-size:14px;letter-spacing:.14em;color:#c41d14;">RESUME WITH</div></div><div style="display:grid;grid-template-columns:100px 74px 1fr 430px;align-items:center;height:46px;border-bottom:1px solid var(--rule)"><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">4m ago</div><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">212K</div><div class="mono" style="padding:0 12px;font-size:13.5px;font-weight:600;position:relative"><span style="position:relative">Fix flaky upload retry</span></div><div class="mono" style="padding:0 12px;font-size:12.5px;color:var(--ink-2)"><b style="color:var(--ink)">claude</b> --resume 928f7e5d-30fd-5a7b-86fe-233c7ca5f00d</div></div><div style="display:grid;grid-template-columns:100px 74px 1fr 430px;align-items:center;height:46px;border-bottom:1px solid var(--rule)"><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">2h ago</div><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">1480K</div><div class="mono" style="padding:0 12px;font-size:13.5px;font-weight:600;position:relative"><span style="position:relative">Migrate config loader to TOML</span></div><div class="mono" style="padding:0 12px;font-size:12.5px;color:var(--ink-2)"><b style="color:var(--ink)">claude</b> --resume df09e38d-3f83-5671-abee-ba7e12c3ca72</div></div><div style="display:grid;grid-template-columns:100px 74px 1fr 430px;align-items:center;height:46px;border-bottom:1px solid var(--rule)"><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">9h ago</div><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">640K</div><div class="mono" style="padding:0 12px;font-size:13.5px;font-weight:600;position:relative"><span style="position:relative">Paginate the orders API<svg class="abs" style="left:-12px;top:-11px" width="211" height="40" viewBox="0 0 211 40"><path d="M8 22 C 6 6, 197 2, 205 18 S 30 40, 14 30 S 20 8, 40 6" fill="none" stroke="#c41d14" stroke-width="1.8" stroke-linecap="round" opacity=".85"/></svg></span></div><div class="mono" style="padding:0 12px;font-size:12.5px;color:var(--ink-2)"><b style="color:var(--ink)">claude</b> --resume 1cc4056b-0e53-51fd-8ce6-a4410a8af11a</div></div><div style="display:grid;grid-template-columns:100px 74px 1fr 430px;align-items:center;height:46px;border-bottom:1px solid var(--rule)"><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">3d ago</div><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">96K</div><div class="mono" style="padding:0 12px;font-size:13.5px;font-weight:600;position:relative"><span style="position:relative">Add CI workflow</span></div><div class="mono" style="padding:0 12px;font-size:12.5px;color:var(--ink-2)"><b style="color:var(--ink)">claude</b> --resume a8a20587-6e73-5231-93aa-28044c992a57</div></div><div style="display:grid;grid-template-columns:100px 74px 1fr 430px;align-items:center;height:46px;border-bottom:1px solid var(--rule)"><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">5d ago</div><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">58K</div><div class="mono" style="padding:0 12px;font-size:13.5px;font-weight:600;position:relative"><span style="position:relative">why does the login page flash white on load?</span></div><div class="mono" style="padding:0 12px;font-size:12.5px;color:var(--ink-2)"><b style="color:var(--ink)">claude</b> --resume 7764932d-c2e5-5ad6-a46e-6a088fa2ecfc</div></div><div style="display:grid;grid-template-columns:100px 74px 1fr 430px;align-items:center;height:46px;border-bottom:1px solid var(--rule)"><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">12d ago</div><div class="mono" style="padding:0 12px;text-align:right;font-size:13.5px;color:var(--ink-2)">2210K</div><div class="mono" style="padding:0 12px;font-size:13.5px;font-weight:600;position:relative"><span style="position:relative">Rename user_id to account_id across services</span></div><div class="mono" style="padding:0 12px;font-size:12.5px;color:var(--ink-2)"><b style="color:var(--ink)">claude</b> --resume 0cd3cf79-abf7-5891-946f-20506d64d92f</div></div></div><div style="margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:30px"><div style="border-left:2px solid #c41d14;padding-left:14px"><div class="label" style="color:#c41d14;font-size:12px">Find one fast</div><div class="mono" style="margin-top:7px;font-size:13.5px"><span style="color:#c41d14;font-weight:700">$</span> <b>claude-sessions -n 2 api</b></div><div class="mono" style="margin-top:4px;font-size:12.5px;color:var(--ink-2)">&rarr; 1 match: Paginate the orders API, 9h ago</div></div><div style="border-left:2px solid var(--ink-3);padding-left:14px"><div class="label" style="color:var(--ink-3);font-size:12px">Titles</div><div style="margin-top:7px;font-size:14.5px;line-height:1.5;color:var(--ink-2)">The latest AI title wins. A session without one, like &ldquo;why does the login page flash white on load?&rdquo;, is listed by its first message.</div></div></div><div style="margin-top:24px;padding-top:12px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;font-size:13px;color:var(--ink-3)"><span>The project and its transcripts are invented. The output is the tool&rsquo;s own.</span><span class="mono">bin/claude-sessions</span></div></div></body></html>

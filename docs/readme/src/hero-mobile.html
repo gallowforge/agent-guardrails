@@ -1,72 +1,80 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>hero-mobile</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=block" rel="stylesheet"><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>hero-mobile</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&family=Red+Hat+Mono:wght@400;500;600;700&display=block" rel="stylesheet"><style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: transparent; }
-body { font-family: Inter, sans-serif; color: #f3f5f8; -webkit-font-smoothing: antialiased;
-  font-feature-settings: 'cv11', 'ss01'; }
-:root { --accent: #ff6b4a; --accent-hi: #ff9a7a; --ok: #4ade80; --text: #f3f5f8; --body: #c9cfd8;
-  --muted: #9aa3b0; --dim: #6f7885; --faint: #4a515c; --line: rgba(255,255,255,.08); }
+body { font-family: Barlow, sans-serif; color: var(--white); -webkit-font-smoothing: antialiased; }
+:root { --asphalt: #141413; --asphalt-2: #1b1b19; --asphalt-3: #252522; --white: #f2f0ea; --grey: #a5a297; --dim: #75726a;
+  --faint: #4a4842; --yellow: #ffc61a; --red: #e2231a; --red-hi: #ff5a48; --paper: #ece6d8; --paper-2: #e2dbca;
+  --ink: #191816; --ink-2: #4f4b44; --ink-3: #8a857a; --rule: #d3cab5; }
 
-.card { position: relative; overflow: hidden; border-radius: 28px; isolation: isolate;
-  background:
-    radial-gradient(var(--gw, 900px) var(--gh, 520px) at var(--gx, 50%) var(--gy, -10%), rgba(255, 107, 74, .14), transparent 70%),
-    radial-gradient(620px 440px at var(--ax, 100%) var(--ay, 112%), rgba(255, 107, 74, .06), transparent 70%),
-    linear-gradient(180deg, #0d1014, #08090b); }
-.card::before { content: ''; position: absolute; inset: 0; z-index: -1;
-  background-image: radial-gradient(rgba(255, 255, 255, .075) 1px, transparent 1.4px); background-size: 24px 24px;
-  -webkit-mask-image: radial-gradient(var(--gw, 900px) var(--gh, 520px) at var(--gx, 50%) var(--gy, -10%), #000, transparent 75%); }
-.card.flat::after { border-radius: 0; box-shadow: none; }
-.card::after { content: ''; position: absolute; inset: 0; border-radius: 28px; z-index: 30; pointer-events: none;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .085), inset 0 1px 0 rgba(255, 255, 255, .06); }
+.field { position: relative; overflow: hidden; isolation: isolate; background: var(--asphalt); }
+.field::after { content: ''; position: absolute; inset: 0; z-index: 40; pointer-events: none; opacity: .045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: screen; }
+.paper { position: relative; overflow: hidden; isolation: isolate; background: var(--paper); color: var(--ink); }
+.paper::after { content: ''; position: absolute; inset: 0; z-index: 40; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: multiply; filter: invert(1); }
+.abs { position: absolute; }
+.cond { font-family: 'Barlow Condensed', sans-serif; }
+.mono, .term { font-family: 'Red Hat Mono', monospace; font-variant-ligatures: none; }
+.term { white-space: pre; }
+.ln { display: block; }
+.label { font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+svg { display: block; overflow: visible; }
 
-.brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.03em; }
-.brand svg { display: block; filter: drop-shadow(0 8px 22px rgba(255, 107, 74, .45)); }
-h1 { font-weight: 800; letter-spacing: -.048em; line-height: 1; color: #f6f8fa; }
-.grad { background: linear-gradient(95deg, #ffa183, #ff6b4a 55%, #f2502e); -webkit-background-clip: text;
-  background-clip: text; color: transparent; }
-.lede { color: var(--muted); font-weight: 500; line-height: 1.45; letter-spacing: -.01em; }
-.pills { display: flex; gap: 12px; justify-content: center; }
-.pill { display: inline-flex; align-items: center; gap: 9px; height: 42px; padding: 0 20px; border-radius: 999px;
-  font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
-.pill.go { background: var(--accent); color: #1c0904; box-shadow: 0 10px 34px -10px rgba(255, 107, 74, .7); }
-.pill.ghost { color: #d4dae2; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .03); }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(74, 222, 128, .18); }
-.center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+/* shell colouring on asphalt */
+.c { color: var(--white); font-weight: 600; }
+.f { color: #cfcabd; }
+.s { color: #edd08a; }
+.o { color: var(--dim); }
+.k { color: var(--grey); }
+.n { color: var(--yellow); }
+.v { color: #ece9e1; }
+.mut { color: var(--dim); }
+.hit { color: var(--white); font-weight: 700; }
+.red { color: var(--red-hi); }
+.yel { color: var(--yellow); }
+/* on paper */
+.paper .c { color: var(--ink); font-weight: 700; }
+.paper .f { color: #3d3a34; }
+.paper .s { color: #7a5600; }
+.paper .o { color: var(--ink-3); }
+.paper .mut { color: var(--ink-3); }
+.paper .red { color: #c41d14; }
+.paper .field { color: #dedad0; }
+.paper .field .c { color: var(--white); } .paper .field .f { color: #cfcabd; } .paper .field .s { color: #edd08a; }
+.paper .field .o { color: var(--dim); } .paper .field .mut { color: var(--dim); }
+.wrap .ln { white-space: pre-wrap; padding-left: 16px; text-indent: -16px; }
 
-.win { position: relative; border-radius: 13px; overflow: hidden; background: #0a0c10;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .11), 0 44px 80px -32px rgba(0, 0, 0, .9), 0 18px 36px -18px rgba(0, 0, 0, .6); }
-.bar { position: relative; height: 34px; display: flex; align-items: center; gap: 7px; padding: 0 14px;
-  background: #12151a; border-bottom: 1px solid rgba(255, 255, 255, .06); }
-.bar i { width: 11px; height: 11px; border-radius: 50%; background: #2b3038; }
-.bar .t { position: absolute; left: 0; right: 0; text-align: center; font-size: 12.5px; font-weight: 500; color: #7d8693;
-  letter-spacing: .01em; }
-.term { font-family: 'JetBrains Mono', monospace; color: #d7dce3; white-space: pre; font-variant-ligatures: none; }
-.term .ln { display: block; }
-.p { color: var(--accent); font-weight: 700; }
-.cwd { color: #7d8693; }
-.c { color: #f3f5f8; font-weight: 600; }
-.f { color: #8ea0b8; }
-.s { color: #e2c08d; }
-.o { color: #6f7885; }
-.k { color: #8ea0b8; }
-.n { color: #b6a4f0; }
-.v { color: #e9edf2; }
-.mut { color: #6f7885; }
-.ok { color: var(--ok); }
-.warn { color: var(--accent); }
-.b { font-weight: 700; color: #f6f8fa; }
-
-.label { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-.chip { display: inline-flex; align-items: center; gap: 7px; height: 24px; padding: 0 10px; border-radius: 999px;
-  font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.chip.flag { color: #ffb4a1; background: rgba(255, 107, 74, .12); box-shadow: inset 0 0 0 1px rgba(255, 107, 74, .35); }
-.chip.allow { color: #9ef0bb; background: rgba(74, 222, 128, .10); box-shadow: inset 0 0 0 1px rgba(74, 222, 128, .30); }
-.chip i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-</style></head><body style="width:540px"><div class="card" style="width:540px;padding:0;--gw:640px;--gh:520px;--gy:-8%"><div class="center" style="padding-top:48px"><div class="brand" style="font-size:21px"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true">
-<defs><linearGradient id="lg32" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffa080"/>
-<stop offset="1" stop-color="#ef4b2a"/></linearGradient>
-<clipPath id="bc32"><rect x="7" y="13" width="34" height="12" rx="3"/></clipPath></defs>
-<rect width="48" height="48" rx="13" fill="url(#lg32)"/>
-<g fill="#1d0a05"><rect x="12" y="22" width="4.6" height="15" rx="1.6"/><rect x="31.4" y="22" width="4.6" height="15" rx="1.6"/>
-<rect x="9" y="35" width="10.6" height="3.4" rx="1.7"/><rect x="28.4" y="35" width="10.6" height="3.4" rx="1.7"/>
-<rect x="7" y="13" width="34" height="12" rx="3"/></g>
-<g clip-path="url(#bc32)" fill="#ffd9cc"><path d="M9 25 17 13h5l-8 12z"/><path d="M19 25 27 13h5l-8 12z"/><path d="M29 25 37 13h5l-8 12z"/></g></svg>agent-guardrails</div><h1 style="margin-top:30px;font-size:52px">Give your coding<br>agent <span class="grad">a lead.</span></h1><p class="lede" style="margin-top:18px;font-size:18px;max-width:440px">Independent review, independent checks, and a tripwire on risky shell commands.</p></div><div style="margin-top:36px;padding-bottom:32px"><div class="win" style="width:476px;margin:0 auto"><div class="bar"><i></i><i></i><i></i><span class="t">advisory-guard.sh</span></div><div class="term" style="padding:0;font-size:14px;line-height:1.6"><div style="white-space:normal"><div style="padding:22px 22px 4px;background:linear-gradient(180deg,rgba(255,107,74,.06),transparent 70%)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;font-family:Inter"><span class="chip flag"><i></i>Flagged &middot; 2</span><span style="font-size:12.5px;color:#6f7885;font-weight:500"></span></div><div class="ev" style="margin-bottom:22px"><div style="display:flex;align-items:baseline;gap:12px"><span class="warn" style="font-weight:700">&#9650;</span><span style="font-size:14px"><span class="c">rm</span> <span class="f">-rf</span> ./build ~/</span></div><div style="margin:10px 0 0 6px;padding:2px 0 2px 18px;border-left:2px solid rgba(255,107,74,.55);white-space:normal;color:#c9cfd8;font-size:13px;line-height:1.6">Advisory (non-blocking): this command looks like it involves <b class="b">recursive force-delete</b>. Proceeding, but double-check the target/scope before it runs again unattended.</div><div class="mut" style="margin:9px 0 0 26px;font-size:11px">additionalContext &middot; exit 0 &middot; no permissionDecision</div></div><div class="ev" style="margin-bottom:22px"><div style="display:flex;align-items:baseline;gap:12px"><span class="warn" style="font-weight:700">&#9650;</span><span style="font-size:14px"><span class="c">curl</span> <span class="f">-fsSL</span> https://example.com/install.sh <span class="o">|</span> <span class="c">sh</span></span></div><div style="margin:10px 0 0 6px;padding:2px 0 2px 18px;border-left:2px solid rgba(255,107,74,.55);white-space:normal;color:#c9cfd8;font-size:13px;line-height:1.6">Advisory (non-blocking): this command looks like it involves <b class="b">piping a remote download straight into a shell</b>. Proceeding, but double-check the target/scope before it runs again unattended.</div><div class="mut" style="margin:9px 0 0 26px;font-size:11px">additionalContext &middot; exit 0 &middot; no permissionDecision</div></div></div><div style="padding:22px 22px 4px;border-top:1px solid rgba(255,255,255,.07);background:linear-gradient(180deg,rgba(74,222,128,.045),transparent 70%)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;font-family:Inter"><span class="chip allow"><i></i>Allowed &middot; 3</span><span style="font-size:12.5px;color:#6f7885;font-weight:500"></span></div><div style="margin-bottom:20px"><div style="display:flex;align-items:baseline;gap:12px"><span class="ok" style="font-weight:700">&#10003;</span><span style="font-size:15px"><span class="c">npm</span> test</span></div><div class="mut" style="margin:6px 0 0 26px;font-size:11px">no output &middot; exit 0</div></div><div style="margin-bottom:20px"><div style="display:flex;align-items:baseline;gap:12px"><span class="ok" style="font-weight:700">&#10003;</span><span style="font-size:15px"><span class="c">rm</span> <span class="f">-r</span> old-dir</span></div><div class="mut" style="margin:6px 0 0 26px;font-size:11px">no output &middot; exit 0</div></div><div style="margin-bottom:20px"><div style="display:flex;align-items:baseline;gap:12px"><span class="ok" style="font-weight:700">&#10003;</span><span style="font-size:15px"><span class="c">chmod</span> 755 script.sh</span></div><div class="mut" style="margin:6px 0 0 26px;font-size:11px">no output &middot; exit 0</div></div></div></div></div></div></div></div></body></html>
+/* a reflective sign plate: black face, white keyline, four bolts */
+.plate { position: relative; background: #0c0c0b; border-radius: 12px;
+  box-shadow: inset 0 0 0 6px #0c0c0b, inset 0 0 0 8.5px var(--white), 0 22px 40px -22px #000; }
+.plate.yellow { background: var(--yellow); color: var(--ink);
+  box-shadow: inset 0 0 0 5px var(--yellow), inset 0 0 0 7.5px var(--ink), 0 22px 40px -22px #000; }
+.plate.white { background: var(--white); color: var(--ink);
+  box-shadow: inset 0 0 0 5px var(--white), inset 0 0 0 7.5px var(--ink), 0 22px 40px -22px #000; }
+.bolt { position: absolute; width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e4e1d8, #8a877f 55%, #3a3834); box-shadow: 0 1px 1.5px rgba(0,0,0,.55); }
+.bolt::after { content: ''; position: absolute; left: 1.5px; right: 1.5px; top: 3.75px; height: 1.5px;
+  background: rgba(20, 20, 18, .7); transform: rotate(var(--r, 20deg)); }
+</style></head><body style="width:540px"><div class="field" style="width:540px;height:1000px"><svg class="abs" style="left:0;top:0;" width="540" height="1000" viewBox="0 0 540 1000"><defs>
+<radialGradient id="lensOn" cx="44%" cy="40%" r="62%"><stop offset="0" stop-color="#fff6ea"/><stop offset=".16" stop-color="#ff9a78"/>
+<stop offset=".48" stop-color="#f22b1d"/><stop offset="1" stop-color="#8a0b05"/></radialGradient>
+<radialGradient id="lensOff" cx="44%" cy="38%" r="64%"><stop offset="0" stop-color="#5e1913"/><stop offset=".65" stop-color="#36100c"/>
+<stop offset="1" stop-color="#1e0705"/></radialGradient>
+<radialGradient id="amberOff" cx="44%" cy="38%" r="64%"><stop offset="0" stop-color="#5a4210"/><stop offset=".65" stop-color="#35270a"/>
+<stop offset="1" stop-color="#1d1505"/></radialGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#ff4130" stop-opacity=".62"/><stop offset=".3" stop-color="#ff2a1a" stop-opacity=".2"/>
+<stop offset="1" stop-color="#ff2a1a" stop-opacity="0"/></radialGradient>
+<radialGradient id="wash"><stop offset="0" stop-color="#ff2a1a" stop-opacity=".16"/><stop offset="1" stop-color="#ff2a1a" stop-opacity="0"/></radialGradient>
+<linearGradient id="steel" x1="0" x2="1"><stop offset="0" stop-color="#2f2e2b"/><stop offset=".3" stop-color="#8f8c84"/>
+<stop offset=".5" stop-color="#6c6a63"/><stop offset="1" stop-color="#262523"/></linearGradient>
+<linearGradient id="steelH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f8c84"/><stop offset=".45" stop-color="#5d5b55"/>
+<stop offset="1" stop-color="#262523"/></linearGradient>
+<linearGradient id="armShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/>
+<stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset=".75" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".38"/></linearGradient>
+<linearGradient id="box" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1d1d1b"/><stop offset=".4" stop-color="#3a3935"/>
+<stop offset="1" stop-color="#161615"/></linearGradient>
+<pattern id="armStripe" width="60" height="60" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)">
+<rect width="30" height="60" fill="#e2231a"/><rect x="30" width="30" height="60" fill="#f2f0ea"/></pattern>
+<pattern id="hazard" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+<rect width="11" height="22" fill="#ffc61a"/><rect x="11" width="11" height="22" fill="#121211"/></pattern>
+</defs><circle cx="70" cy="520" r="270" fill="url(#wash)"/><rect x="0" y="904" width="540" height="96" fill="#1c1c1a"/><rect x="0" y="904" width="540" height="1.5" fill="#fff" fill-opacity=".07"/><path d="M-13 917 H540" stroke="#f2f0ea" stroke-opacity=".62" stroke-width="4" stroke-dasharray="26 18"/><rect x="84.0" y="372" width="16" height="532" fill="url(#steel)"/><rect x="81.0" y="850" width="22" height="54" fill="url(#hazard)"/><rect x="81.0" y="850" width="22" height="54" fill="url(#steel)" opacity=".28"/><g transform="translate(92 372) rotate(-38)"><rect x="-80.0" y="-14.0" width="160" height="28" rx="3.4" fill="#f2f0ea" stroke="#0b0b0a" stroke-width="1.5"/><rect x="-77.2" y="-11.2" width="154.4" height="22.4" rx="2.0" fill="none" stroke="#191816" stroke-width="1.3"/><text x="-43.2" y="6.0" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="16.8" letter-spacing="1.4" fill="#191816">BASH</text><text x="43.2" y="6.0" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="16.8" letter-spacing="1.4" fill="#191816">ONLY</text></g><g transform="translate(92 372) rotate(38)"><rect x="-80.0" y="-14.0" width="160" height="28" rx="3.4" fill="#f2f0ea" stroke="#0b0b0a" stroke-width="1.5"/><rect x="-77.2" y="-11.2" width="154.4" height="22.4" rx="2.0" fill="none" stroke="#191816" stroke-width="1.3"/><text x="-43.2" y="6.0" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="16.8" letter-spacing="1.4" fill="#191816">CROSS</text><text x="43.2" y="6.0" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="16.8" letter-spacing="1.4" fill="#191816">ING</text></g><circle cx="92" cy="372" r="4.2" fill="url(#steel)" stroke="#0b0b0a" stroke-width="1"/><rect x="17.2" y="436.6" width="149.5" height="69.3" rx="34.6" fill="#0b0b0a" stroke="#f2f0ea" stroke-width="2.1"/><circle cx="54.0" cy="471.2" r="96.6" fill="url(#glow)"/><path d="M28.9 471.2 A25.2 25.2 0 0 1 79.1 471.2 Z" fill="#050505"/><circle cx="54.0" cy="471.2" r="21" fill="url(#lensOn)"/><circle cx="54.0" cy="471.2" r="14.7" fill="none" stroke="#ffd9c9" stroke-opacity="0.32" stroke-width="0.8"/><circle cx="54.0" cy="471.2" r="8.8" fill="none" stroke="#ffd9c9" stroke-opacity="0.32" stroke-width="0.8"/><circle cx="54.0" cy="471.2" r="39.9" fill="url(#glow)" style="mix-blend-mode:screen"/><path d="M104.9 471.2 A25.2 25.2 0 0 1 155.1 471.2 Z" fill="#050505"/><circle cx="130.0" cy="471.2" r="21" fill="url(#lensOff)"/><circle cx="130.0" cy="471.2" r="14.7" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="0.8"/><circle cx="130.0" cy="471.2" r="8.8" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="0.8"/><ellipse cx="123.3" cy="463.6" rx="6.3" ry="3.4" transform="rotate(-30 123.3 463.6)" fill="#fff" fill-opacity=".14"/><rect x="69.6" y="628" width="44.8" height="70.2" rx="5" fill="url(#box)" stroke="#0b0b0a" stroke-width="1.2"/><rect x="74.6" y="634" width="34.8" height="3" rx="1.5" fill="#fff" fill-opacity=".08"/><circle cx="92" cy="651.9" r="9.0" fill="url(#steel)" stroke="#0b0b0a"/><rect x="55.599999999999994" y="640.8" width="54" height="36.4" rx="3" fill="url(#box)" stroke="#0b0b0a"/><rect x="61.6" y="644.8" width="11.0" height="28.4" rx="1.5" fill="#2b2a27"/><rect x="75.6" y="644.8" width="11.0" height="28.4" rx="1.5" fill="#2b2a27"/><rect x="89.6" y="644.8" width="11.0" height="28.4" rx="1.5" fill="#2b2a27"/><rect x="109.6" y="646" width="342" height="26" rx="13.0" fill="url(#armStripe)"/><rect x="109.6" y="646" width="342" height="26" rx="13.0" fill="url(#armShade)" stroke="#0b0b0a" stroke-width="1.2"/><rect x="234.3" y="625.4" width="23.4" height="22.5" rx="4.7" fill="#0b0b0a"/><circle cx="246" cy="636.64" r="7.4879999999999995" fill="url(#lensOff)"/><circle cx="246" cy="636.64" r="5.2" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="0.8"/><circle cx="246" cy="636.64" r="3.1" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="0.8"/><ellipse cx="243.6" cy="633.9" rx="2.2" ry="1.2" transform="rotate(-30 243.6 633.9)" fill="#fff" fill-opacity=".14"/><rect x="338.3" y="625.4" width="23.4" height="22.5" rx="4.7" fill="#0b0b0a"/><circle cx="350" cy="636.64" r="7.4879999999999995" fill="url(#lensOff)"/><circle cx="350" cy="636.64" r="5.2" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="0.8"/><circle cx="350" cy="636.64" r="3.1" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="0.8"/><ellipse cx="347.6" cy="633.9" rx="2.2" ry="1.2" transform="rotate(-30 347.6 633.9)" fill="#fff" fill-opacity=".14"/><rect x="428.3" y="625.4" width="23.4" height="22.5" rx="4.7" fill="#0b0b0a"/><circle cx="440" cy="636.64" r="34.4" fill="url(#glow)"/><circle cx="440" cy="636.64" r="7.4879999999999995" fill="url(#lensOn)"/><circle cx="440" cy="636.64" r="5.2" fill="none" stroke="#ffd9c9" stroke-opacity="0.32" stroke-width="0.8"/><circle cx="440" cy="636.64" r="3.1" fill="none" stroke="#ffd9c9" stroke-opacity="0.32" stroke-width="0.8"/><circle cx="440" cy="636.64" r="14.2" fill="url(#glow)" style="mix-blend-mode:screen"/><path d="M456.6 644.0 v30 M522 644.0 v30 M458.6 659 H520" stroke="#ffc61a" stroke-width="1.3" fill="none"/><path d="M465.6 654 l-7 5 7 5 M513 654 l7 5 -7 5" fill="none" stroke="#ffc61a" stroke-width="1.3"/></svg><div class="plate abs" style="left:32.0px;top:553px;width:120px;height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center"><i class="bolt" style="left:6px;top:6px;width:5px;height:5px;--r:18deg"></i><i class="bolt" style="right:6px;top:6px;width:5px;height:5px;--r:-34deg"></i><i class="bolt" style="left:6px;bottom:6px;width:5px;height:5px;--r:62deg"></i><i class="bolt" style="right:6px;bottom:6px;width:5px;height:5px;--r:7deg"></i><div class="cond" style="font-weight:800;font-size:24px;line-height:1;letter-spacing:.06em">LOOK</div><div style="margin-top:2px;font-weight:600;font-size:11px">when lights show</div></div><div class="abs" style="left:36px;top:44px;width:470px"><div class="cond" style="font-weight:800;font-size:78px;line-height:.88">agent-<br>guardrails</div><div style="margin-top:22px;font-weight:500;font-size:25px;line-height:1.24">A level crossing between your coding agent and your machine.</div></div><div class="abs" style="left:212px;top:430px;width:296px;font-size:17px;line-height:1.5;color:var(--grey)">Most commands cross in silence. A risky one gets the barrier, the lights and a sign in the agent&rsquo;s own context.<div style="margin-top:12px;color:var(--white);font-weight:600">Nothing is locked.</div></div><div class="abs" style="left:454px;top:684px;width:78px"><div class="label yel" style="font-size:11px;line-height:1.3">Half<br>barrier</div></div><div class="abs" style="left:146px;top:712px;width:366px"><div class="label red" style="display:flex;align-items:center;gap:8px;font-size:12px"><svg width="11" height="10.1" viewBox="0 0 13 12"><path d="M6.5 0 13 12H0z" fill="#e2231a"/></svg>Held at the barrier</div><div class="term" style="margin-top:10px;font-size:30px;line-height:1"><span class="c">rm</span> <span class="f">-rf</span> ./build ~/</div><div class="mono" style="margin-top:12px;font-size:12.5px;line-height:1.55;color:var(--grey)">Advisory (non-blocking): this command looks like it involves <b class="hit">recursive force-delete</b>. Proceeding, but double-check the target/scope before it runs again unattended.</div></div><div class="abs" style="left:36px;right:16px;top:934px"><div class="label" style="color:var(--dim);font-size:11px">Crossed in silence</div><div style="margin-top:9px;white-space:nowrap"><span style="display:inline-flex;align-items:baseline;gap:9px;margin-right:16px;white-space:nowrap"><span class="term" style="font-size:12.5px"><span class="c">npm</span> test</span><span class="mono" style="font-size:9.5px;color:var(--dim)">exit 0</span></span><span style="display:inline-flex;align-items:baseline;gap:9px;margin-right:16px;white-space:nowrap"><span class="term" style="font-size:12.5px"><span class="c">rm</span> <span class="f">-r</span> old-dir</span><span class="mono" style="font-size:9.5px;color:var(--dim)">exit 0</span></span><span style="display:inline-flex;align-items:baseline;gap:9px;margin-right:16px;white-space:nowrap"><span class="term" style="font-size:12.5px"><span class="c">chmod</span> 755 script.sh</span><span class="mono" style="font-size:9.5px;color:var(--dim)">exit 0</span></span></div></div></div></body></html>

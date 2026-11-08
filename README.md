@@ -1,12 +1,12 @@
 <picture>
   <source media="(max-width: 700px)" srcset="docs/readme/hero-mobile.webp" />
-  <img src="docs/readme/hero.webp" width="100%" alt="agent-guardrails: give your coding agent a lead. A terminal shows the PreToolUse hook flagging rm -rf ./build ~/ and curl piped into sh with its real warning text, while npm test, rm -r old-dir, chmod 755 and git push --force-with-lease pass with no output and exit 0." />
+  <img src="docs/readme/hero.webp" width="100%" alt="agent-guardrails: a level crossing between your coding agent and your machine. A drawn crossing with a BASH ONLY crossbuck, flashing red lamps and a LOOK when lights show plate lowers its striped arm across rm -rf ./build ~/, with the hook's real warning underneath. A dimension line marks the gap as a half barrier: the hook warns, it never blocks. npm test, rm -r old-dir, chmod 755 script.sh and git push --force-with-lease cross in silence at exit 0." />
 </picture>
 
 <p align="center">
   <a href="#quickstart"><b>Quickstart</b></a>
   &nbsp;·&nbsp;
-  <a href="#catch-the-risky-command-before-it-runs">The rules</a>
+  <a href="#lower-the-barrier-on-risky-commands">The rules</a>
   &nbsp;·&nbsp;
   <a href="#under-the-hood">How it works</a>
   &nbsp;·&nbsp;
@@ -17,26 +17,26 @@
 
 <p align="center">
   <a href="https://github.com/gallowforge/agent-guardrails/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/gallowforge/agent-guardrails/actions/workflows/ci.yml/badge.svg" /></a>
-  <img alt="36 tests passing" src="https://img.shields.io/badge/tests-36_passing-4ade80?labelColor=0f1217" />
-  <img alt="Hook: advisory, never blocks" src="https://img.shields.io/badge/hook-advisory%2C_never_blocks-ff6b4a?labelColor=0f1217" />
-  <img alt="Needs sh, bash and python3" src="https://img.shields.io/badge/needs-sh_%C2%B7_bash_%C2%B7_python3-ff6b4a?labelColor=0f1217" />
-  <img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-9aa1ad?labelColor=0f1217" />
+  <img alt="36 tests passing" src="https://img.shields.io/badge/tests-36_passing-ffc61a?labelColor=141413" />
+  <img alt="Hook: advisory, never blocks" src="https://img.shields.io/badge/hook-advisory%2C_never_blocks-e2231a?labelColor=141413" />
+  <img alt="Needs sh, bash and python3" src="https://img.shields.io/badge/needs-sh_%C2%B7_bash_%C2%B7_python3-f2f0ea?labelColor=141413" />
+  <img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-a5a297?labelColor=141413" />
 </p>
 
 <br />
 
 A coding agent will run `rm -rf` on the wrong directory, push over a shared branch, and then tell you the work is done and correct, in the same confident voice. Permission prompts on every command wear you down until you approve everything. Turning them off everywhere leaves nothing between the agent and your files.
 
-**agent-guardrails treats the agent like a capable engineer who still needs a lead: a written spec and limits, a second opinion from something that did not write the code, and a tripwire on the commands that hurt.** It is a handful of plain files that Claude Code already understands: two subagents, one hook, one launcher and one session lister. No service, no daemon, nothing to install beyond `sh`, `bash` and `python3`.
+**agent-guardrails is a level crossing between the agent and your machine: a written spec and limits, two keepers who did not write the code, and a barrier that comes down on the commands that hurt. The barrier is a warning, not a wall.** It is a handful of plain files that Claude Code already understands: two subagents, one hook, one launcher and one session lister. No service, no daemon, nothing to install beyond `sh`, `bash` and `python3`.
 
 <picture>
   <source media="(max-width: 700px)" srcset="docs/readme/numbers-mobile.webp" />
-  <img src="docs/readme/numbers.webp" width="100%" alt="7 risk rules, 36 tests passing (29 hook and 7 launcher), 2 agents, 4 verdicts per checked claim, 21 subcommands that never get the bypass flag, and 0 hard blocks: the hook only warns." />
+  <img src="docs/readme/numbers.webp" width="100%" alt="Six lineside boards beside a railway track: 7 risk rules, 36 tests passing (29 hook and 7 launcher), 2 agents, 4 verdicts per checked claim, 21 subcommands that never get the bypass flag, and 0 hard blocks, on a white board with a WARNS ONLY plate: the hook only warns." />
 </picture>
 
 <br />
 
-## Catch the risky command before it runs
+## Lower the barrier on risky commands
 
 `advisory-guard.sh` is a `PreToolUse` hook on the `Bash` tool. Claude Code hands it every shell command before it runs. When a command matches one of seven rules, the warning lands in the agent's own context, so it double-checks the target before going ahead.
 
@@ -47,7 +47,7 @@ A coding agent will run `rm -rf` on the wrong directory, push over a shared bran
 
 <picture>
   <source media="(max-width: 700px)" srcset="docs/readme/rules-mobile.webp" />
-  <img src="docs/readme/rules.webp" width="100%" alt="The seven rules as a table: each warning in the hook's own words, a command it flags and a near miss it lets through. Below, a terminal pipes a three-hit payload into the hook and shows its real JSON reply." />
+  <img src="docs/readme/rules.webp" width="100%" alt="The rulebook: seven warning triangles, each with its trigger on a plate below (rm -rf, push --force, curl | sh, chmod 777, ~/.ssh, dd of=/dev, > /dev/nvme), the warning in the hook's own words, a command it flags and a near miss it lets through. An eighth panel says every match still runs. Below, a specimen pipes a three-hit payload into the hook and shows its real JSON reply." />
 </picture>
 
 <details>
@@ -78,7 +78,7 @@ It is a tripwire, not a sandbox. Variables, `eval` and scripts get around it eas
 
 </details>
 
-## Have someone else check the work
+## Nobody marks their own homework
 
 The session that wrote a change shares every assumption baked into it, so it is the worst judge of whether the change is right. Two subagents do the checking instead, each in its own context.
 
@@ -88,7 +88,7 @@ The session that wrote a change shares every assumption baked into it, so it is 
 
 <picture>
   <source media="(max-width: 700px)" srcset="docs/readme/agents-mobile.webp" />
-  <img src="docs/readme/agents.webp" width="100%" alt="A five-step flow: spec and limits, the agent builds, the reviewer reads the diff, the verifier checks the claims, ship. The reviewer and verifier are highlighted as independent, and a dashed line sends findings back to the builder." />
+  <img src="docs/readme/agents.webp" width="100%" alt="A keepers' track panel: the line runs from spec and limits through agent builds, past two lit signal boxes named REVIEWER and VERIFIER, each guarding a red signal, to ship. A dashed loop sends findings back to the builder. Below, each keeper's duty card: the reviewer's four checks in order and tools, the verifier's four verdicts and tools, and the report format from each agent file, stamped SPECIMEN." />
 </picture>
 
 <details>
@@ -126,7 +126,7 @@ branch). Source: https://git-scm.com/docs/git-push
 
 <picture>
   <source media="(max-width: 700px)" srcset="docs/readme/launcher-mobile.webp" />
-  <img src="docs/readme/launcher.webp" width="100%" alt="The launcher's decision: three questions (terminal on both ends, no print or permission flag, first word not a subcommand). Any no runs claude exactly as typed; three yeses add --dangerously-skip-permissions. Below, the real output of the seven launcher tests." />
+  <img src="docs/readme/launcher.webp" width="100%" alt="The launcher as a railway junction: three yellow signal plates ask terminal on both ends, no print or permission flag, first word not a subcommand. Every no turns off to the as-typed line with the normal prompts; three yeses reach the bypass line, past a NO SCRIPTS beyond this point sign. Below, the seven real launcher test runs with the arguments the stub claude received." />
 </picture>
 
 ```console
@@ -150,7 +150,7 @@ Skipping prompts is a real trade-off: nothing stops a destructive command except
 
 <picture>
   <source media="(max-width: 700px)" srcset="docs/readme/sessions-mobile.webp" />
-  <img src="docs/readme/sessions.webp" width="100%" alt="A terminal in ~/acme-shop runs claude-sessions and lists six sessions with their age, size, title and claude --resume command, then filters to the one whose title mentions the API." />
+  <img src="docs/readme/sessions.webp" width="100%" alt="A train register for ~/acme-shop: claude-sessions lists six sessions with their age, size, title and claude --resume command, newest first, under a CANNOT GO STALE stamp. A red pencil ring marks the one that claude-sessions -n 2 api finds, and a note shows a session listed by its first message because it has no AI title." />
 </picture>
 
 The project and its transcripts in this image are invented; the output is the tool's own.
@@ -242,7 +242,7 @@ bash tests/test-launcher.sh   # launcher: 7 passed, 0 failed
 
 <picture>
   <source media="(max-width: 700px)" srcset="docs/readme/tests-mobile.webp" />
-  <img src="docs/readme/tests.webp" width="100%" alt="The real output of tests/test-guard.sh -v with all 29 cases, beside every CI step run locally (shell syntax, ShellCheck, Python syntax, guard tests, launcher tests) and a summary: 29 hook cases, 7 launcher cases, 0 failures." />
+  <img src="docs/readme/tests.webp" width="100%" alt="A certificate of inspection: 36 tests passed (29 hook, 7 launcher, 0 failed), every CI step run locally with its command and result (shell syntax, ShellCheck and Python syntax with no output, guard: 29 passed, launcher: 7 passed), signed by ci.yml and stamped PASSED. Beside it, Schedule A: the real output of tests/test-guard.sh -v with all 29 cases." />
 </picture>
 
 ## FAQ

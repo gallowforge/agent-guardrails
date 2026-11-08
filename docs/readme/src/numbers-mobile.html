@@ -1,64 +1,80 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>numbers-mobile</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=block" rel="stylesheet"><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>numbers-mobile</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&family=Red+Hat+Mono:wght@400;500;600;700&display=block" rel="stylesheet"><style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: transparent; }
-body { font-family: Inter, sans-serif; color: #f3f5f8; -webkit-font-smoothing: antialiased;
-  font-feature-settings: 'cv11', 'ss01'; }
-:root { --accent: #ff6b4a; --accent-hi: #ff9a7a; --ok: #4ade80; --text: #f3f5f8; --body: #c9cfd8;
-  --muted: #9aa3b0; --dim: #6f7885; --faint: #4a515c; --line: rgba(255,255,255,.08); }
+body { font-family: Barlow, sans-serif; color: var(--white); -webkit-font-smoothing: antialiased; }
+:root { --asphalt: #141413; --asphalt-2: #1b1b19; --asphalt-3: #252522; --white: #f2f0ea; --grey: #a5a297; --dim: #75726a;
+  --faint: #4a4842; --yellow: #ffc61a; --red: #e2231a; --red-hi: #ff5a48; --paper: #ece6d8; --paper-2: #e2dbca;
+  --ink: #191816; --ink-2: #4f4b44; --ink-3: #8a857a; --rule: #d3cab5; }
 
-.card { position: relative; overflow: hidden; border-radius: 28px; isolation: isolate;
-  background:
-    radial-gradient(var(--gw, 900px) var(--gh, 520px) at var(--gx, 50%) var(--gy, -10%), rgba(255, 107, 74, .14), transparent 70%),
-    radial-gradient(620px 440px at var(--ax, 100%) var(--ay, 112%), rgba(255, 107, 74, .06), transparent 70%),
-    linear-gradient(180deg, #0d1014, #08090b); }
-.card::before { content: ''; position: absolute; inset: 0; z-index: -1;
-  background-image: radial-gradient(rgba(255, 255, 255, .075) 1px, transparent 1.4px); background-size: 24px 24px;
-  -webkit-mask-image: radial-gradient(var(--gw, 900px) var(--gh, 520px) at var(--gx, 50%) var(--gy, -10%), #000, transparent 75%); }
-.card.flat::after { border-radius: 0; box-shadow: none; }
-.card::after { content: ''; position: absolute; inset: 0; border-radius: 28px; z-index: 30; pointer-events: none;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .085), inset 0 1px 0 rgba(255, 255, 255, .06); }
+.field { position: relative; overflow: hidden; isolation: isolate; background: var(--asphalt); }
+.field::after { content: ''; position: absolute; inset: 0; z-index: 40; pointer-events: none; opacity: .045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: screen; }
+.paper { position: relative; overflow: hidden; isolation: isolate; background: var(--paper); color: var(--ink); }
+.paper::after { content: ''; position: absolute; inset: 0; z-index: 40; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: multiply; filter: invert(1); }
+.abs { position: absolute; }
+.cond { font-family: 'Barlow Condensed', sans-serif; }
+.mono, .term { font-family: 'Red Hat Mono', monospace; font-variant-ligatures: none; }
+.term { white-space: pre; }
+.ln { display: block; }
+.label { font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+svg { display: block; overflow: visible; }
 
-.brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.03em; }
-.brand svg { display: block; filter: drop-shadow(0 8px 22px rgba(255, 107, 74, .45)); }
-h1 { font-weight: 800; letter-spacing: -.048em; line-height: 1; color: #f6f8fa; }
-.grad { background: linear-gradient(95deg, #ffa183, #ff6b4a 55%, #f2502e); -webkit-background-clip: text;
-  background-clip: text; color: transparent; }
-.lede { color: var(--muted); font-weight: 500; line-height: 1.45; letter-spacing: -.01em; }
-.pills { display: flex; gap: 12px; justify-content: center; }
-.pill { display: inline-flex; align-items: center; gap: 9px; height: 42px; padding: 0 20px; border-radius: 999px;
-  font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
-.pill.go { background: var(--accent); color: #1c0904; box-shadow: 0 10px 34px -10px rgba(255, 107, 74, .7); }
-.pill.ghost { color: #d4dae2; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .03); }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(74, 222, 128, .18); }
-.center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+/* shell colouring on asphalt */
+.c { color: var(--white); font-weight: 600; }
+.f { color: #cfcabd; }
+.s { color: #edd08a; }
+.o { color: var(--dim); }
+.k { color: var(--grey); }
+.n { color: var(--yellow); }
+.v { color: #ece9e1; }
+.mut { color: var(--dim); }
+.hit { color: var(--white); font-weight: 700; }
+.red { color: var(--red-hi); }
+.yel { color: var(--yellow); }
+/* on paper */
+.paper .c { color: var(--ink); font-weight: 700; }
+.paper .f { color: #3d3a34; }
+.paper .s { color: #7a5600; }
+.paper .o { color: var(--ink-3); }
+.paper .mut { color: var(--ink-3); }
+.paper .red { color: #c41d14; }
+.paper .field { color: #dedad0; }
+.paper .field .c { color: var(--white); } .paper .field .f { color: #cfcabd; } .paper .field .s { color: #edd08a; }
+.paper .field .o { color: var(--dim); } .paper .field .mut { color: var(--dim); }
+.wrap .ln { white-space: pre-wrap; padding-left: 16px; text-indent: -16px; }
 
-.win { position: relative; border-radius: 13px; overflow: hidden; background: #0a0c10;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .11), 0 44px 80px -32px rgba(0, 0, 0, .9), 0 18px 36px -18px rgba(0, 0, 0, .6); }
-.bar { position: relative; height: 34px; display: flex; align-items: center; gap: 7px; padding: 0 14px;
-  background: #12151a; border-bottom: 1px solid rgba(255, 255, 255, .06); }
-.bar i { width: 11px; height: 11px; border-radius: 50%; background: #2b3038; }
-.bar .t { position: absolute; left: 0; right: 0; text-align: center; font-size: 12.5px; font-weight: 500; color: #7d8693;
-  letter-spacing: .01em; }
-.term { font-family: 'JetBrains Mono', monospace; color: #d7dce3; white-space: pre; font-variant-ligatures: none; }
-.term .ln { display: block; }
-.p { color: var(--accent); font-weight: 700; }
-.cwd { color: #7d8693; }
-.c { color: #f3f5f8; font-weight: 600; }
-.f { color: #8ea0b8; }
-.s { color: #e2c08d; }
-.o { color: #6f7885; }
-.k { color: #8ea0b8; }
-.n { color: #b6a4f0; }
-.v { color: #e9edf2; }
-.mut { color: #6f7885; }
-.ok { color: var(--ok); }
-.warn { color: var(--accent); }
-.b { font-weight: 700; color: #f6f8fa; }
-
-.label { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-.chip { display: inline-flex; align-items: center; gap: 7px; height: 24px; padding: 0 10px; border-radius: 999px;
-  font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.chip.flag { color: #ffb4a1; background: rgba(255, 107, 74, .12); box-shadow: inset 0 0 0 1px rgba(255, 107, 74, .35); }
-.chip.allow { color: #9ef0bb; background: rgba(74, 222, 128, .10); box-shadow: inset 0 0 0 1px rgba(74, 222, 128, .30); }
-.chip i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-</style></head><body style="width:540px"><div class="card" style="width:540px;padding:0;--gw:640px;--gh:460px;--gy:-14%"><div style="display:grid;grid-template-columns:1fr 1fr;column-gap:28px;padding:30px 44px"><div style="padding:26px 0"><div class="stat"><div style="font-size:54px;font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums" class="">7</div><div style="margin-top:12px;font-size:17px;font-weight:700;color:#e2e7ed;letter-spacing:-.01em;white-space:nowrap">Risk rules</div><div style="margin-top:5px;font-size:14px;font-weight:500;color:#7d8693;white-space:nowrap">narrow, high-signal</div></div></div><div style="padding:26px 0"><div class="stat"><div style="font-size:54px;font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums" class="">36</div><div style="margin-top:12px;font-size:17px;font-weight:700;color:#e2e7ed;letter-spacing:-.01em;white-space:nowrap">Tests passing</div><div style="margin-top:5px;font-size:14px;font-weight:500;color:#7d8693;white-space:nowrap">29 hook + 7 launcher</div></div></div><div style="padding:26px 0"><div class="stat"><div style="font-size:54px;font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums" class="">2</div><div style="margin-top:12px;font-size:17px;font-weight:700;color:#e2e7ed;letter-spacing:-.01em;white-space:nowrap">Agents</div><div style="margin-top:5px;font-size:14px;font-weight:500;color:#7d8693;white-space:nowrap">reviewer and verifier</div></div></div><div style="padding:26px 0"><div class="stat"><div style="font-size:54px;font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums" class="">4</div><div style="margin-top:12px;font-size:17px;font-weight:700;color:#e2e7ed;letter-spacing:-.01em;white-space:nowrap">Verdicts</div><div style="margin-top:5px;font-size:14px;font-weight:500;color:#7d8693;white-space:nowrap">per checked claim</div></div></div><div style="padding:26px 0"><div class="stat"><div style="font-size:54px;font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums" class="">21</div><div style="margin-top:12px;font-size:17px;font-weight:700;color:#e2e7ed;letter-spacing:-.01em;white-space:nowrap">Subcommands</div><div style="margin-top:5px;font-size:14px;font-weight:500;color:#7d8693;white-space:nowrap">never get the bypass</div></div></div><div style="padding:26px 0"><div class="stat"><div style="font-size:54px;font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums" class="grad">0</div><div style="margin-top:12px;font-size:17px;font-weight:700;color:#e2e7ed;letter-spacing:-.01em;white-space:nowrap">Hard blocks</div><div style="margin-top:5px;font-size:14px;font-weight:500;color:#7d8693;white-space:nowrap">the hook only warns</div></div></div></div></div></body></html>
+/* a reflective sign plate: black face, white keyline, four bolts */
+.plate { position: relative; background: #0c0c0b; border-radius: 12px;
+  box-shadow: inset 0 0 0 6px #0c0c0b, inset 0 0 0 8.5px var(--white), 0 22px 40px -22px #000; }
+.plate.yellow { background: var(--yellow); color: var(--ink);
+  box-shadow: inset 0 0 0 5px var(--yellow), inset 0 0 0 7.5px var(--ink), 0 22px 40px -22px #000; }
+.plate.white { background: var(--white); color: var(--ink);
+  box-shadow: inset 0 0 0 5px var(--white), inset 0 0 0 7.5px var(--ink), 0 22px 40px -22px #000; }
+.bolt { position: absolute; width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e4e1d8, #8a877f 55%, #3a3834); box-shadow: 0 1px 1.5px rgba(0,0,0,.55); }
+.bolt::after { content: ''; position: absolute; left: 1.5px; right: 1.5px; top: 3.75px; height: 1.5px;
+  background: rgba(20, 20, 18, .7); transform: rotate(var(--r, 20deg)); }
+</style></head><body style="width:540px"><div class="field" style="width:540px;height:826px"><svg class="abs" style="left:0;top:0;" width="540" height="826" viewBox="0 0 540 826"><defs>
+<radialGradient id="lensOn" cx="44%" cy="40%" r="62%"><stop offset="0" stop-color="#fff6ea"/><stop offset=".16" stop-color="#ff9a78"/>
+<stop offset=".48" stop-color="#f22b1d"/><stop offset="1" stop-color="#8a0b05"/></radialGradient>
+<radialGradient id="lensOff" cx="44%" cy="38%" r="64%"><stop offset="0" stop-color="#5e1913"/><stop offset=".65" stop-color="#36100c"/>
+<stop offset="1" stop-color="#1e0705"/></radialGradient>
+<radialGradient id="amberOff" cx="44%" cy="38%" r="64%"><stop offset="0" stop-color="#5a4210"/><stop offset=".65" stop-color="#35270a"/>
+<stop offset="1" stop-color="#1d1505"/></radialGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#ff4130" stop-opacity=".62"/><stop offset=".3" stop-color="#ff2a1a" stop-opacity=".2"/>
+<stop offset="1" stop-color="#ff2a1a" stop-opacity="0"/></radialGradient>
+<radialGradient id="wash"><stop offset="0" stop-color="#ff2a1a" stop-opacity=".16"/><stop offset="1" stop-color="#ff2a1a" stop-opacity="0"/></radialGradient>
+<linearGradient id="steel" x1="0" x2="1"><stop offset="0" stop-color="#2f2e2b"/><stop offset=".3" stop-color="#8f8c84"/>
+<stop offset=".5" stop-color="#6c6a63"/><stop offset="1" stop-color="#262523"/></linearGradient>
+<linearGradient id="steelH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f8c84"/><stop offset=".45" stop-color="#5d5b55"/>
+<stop offset="1" stop-color="#262523"/></linearGradient>
+<linearGradient id="armShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/>
+<stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset=".75" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".38"/></linearGradient>
+<linearGradient id="box" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1d1d1b"/><stop offset=".4" stop-color="#3a3935"/>
+<stop offset="1" stop-color="#161615"/></linearGradient>
+<pattern id="armStripe" width="60" height="60" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)">
+<rect width="30" height="60" fill="#e2231a"/><rect x="30" width="30" height="60" fill="#f2f0ea"/></pattern>
+<pattern id="hazard" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+<rect width="11" height="22" fill="#ffc61a"/><rect x="11" width="11" height="22" fill="#121211"/></pattern>
+</defs><rect x="0" y="194" width="540" height="16" fill="#1d1c1a"/><rect x="0.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="20.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="40.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="60.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="80.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="100.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="120.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="140.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="160.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="180.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="200.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="220.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="240.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="260.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="280.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="300.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="320.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="340.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="360.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="380.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="400.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="420.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="440.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="460.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="480.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="500.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="520.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="540.0" y="191" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="0" y="184" width="540" height="7" fill="url(#steelH)"/><rect x="0" y="184" width="540" height="1.5" fill="#d8d5cc" fill-opacity=".7"/><rect x="105.64" y="124" width="6" height="60" fill="url(#steel)"/><rect x="168.36" y="124" width="6" height="60" fill="url(#steel)"/><rect x="84.0" y="34" width="112" height="96" rx="7" fill="#ffc61a" stroke="#0b0b0a" stroke-width="1"/><rect x="89.0" y="39" width="102" height="86" rx="4" fill="none" stroke="#191816" stroke-width="2.5"/><text x="140" y="108.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="76" fill="#191816">7</text><circle cx="108.64" cy="46" r="2.6" fill="#55524b"/><circle cx="171.36" cy="46" r="2.6" fill="#55524b"/><rect x="365.64" y="124" width="6" height="60" fill="url(#steel)"/><rect x="428.36" y="124" width="6" height="60" fill="url(#steel)"/><rect x="344.0" y="34" width="112" height="96" rx="7" fill="#ffc61a" stroke="#0b0b0a" stroke-width="1"/><rect x="349.0" y="39" width="102" height="86" rx="4" fill="none" stroke="#191816" stroke-width="2.5"/><text x="400" y="108.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="76" fill="#191816">36</text><circle cx="368.64" cy="46" r="2.6" fill="#55524b"/><circle cx="431.36" cy="46" r="2.6" fill="#55524b"/><rect x="0" y="456" width="540" height="16" fill="#1d1c1a"/><rect x="0.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="20.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="40.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="60.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="80.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="100.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="120.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="140.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="160.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="180.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="200.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="220.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="240.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="260.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="280.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="300.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="320.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="340.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="360.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="380.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="400.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="420.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="440.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="460.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="480.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="500.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="520.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="540.0" y="453" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="0" y="446" width="540" height="7" fill="url(#steelH)"/><rect x="0" y="446" width="540" height="1.5" fill="#d8d5cc" fill-opacity=".7"/><rect x="105.64" y="386" width="6" height="60" fill="url(#steel)"/><rect x="168.36" y="386" width="6" height="60" fill="url(#steel)"/><rect x="84.0" y="296" width="112" height="96" rx="7" fill="#ffc61a" stroke="#0b0b0a" stroke-width="1"/><rect x="89.0" y="301" width="102" height="86" rx="4" fill="none" stroke="#191816" stroke-width="2.5"/><text x="140" y="370.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="76" fill="#191816">2</text><circle cx="108.64" cy="308" r="2.6" fill="#55524b"/><circle cx="171.36" cy="308" r="2.6" fill="#55524b"/><rect x="365.64" y="386" width="6" height="60" fill="url(#steel)"/><rect x="428.36" y="386" width="6" height="60" fill="url(#steel)"/><rect x="344.0" y="296" width="112" height="96" rx="7" fill="#ffc61a" stroke="#0b0b0a" stroke-width="1"/><rect x="349.0" y="301" width="102" height="86" rx="4" fill="none" stroke="#191816" stroke-width="2.5"/><text x="400" y="370.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="76" fill="#191816">4</text><circle cx="368.64" cy="308" r="2.6" fill="#55524b"/><circle cx="431.36" cy="308" r="2.6" fill="#55524b"/><rect x="0" y="718" width="540" height="16" fill="#1d1c1a"/><rect x="0.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="20.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="40.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="60.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="80.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="100.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="120.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="140.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="160.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="180.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="200.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="220.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="240.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="260.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="280.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="300.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="320.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="340.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="360.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="380.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="400.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="420.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="440.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="460.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="480.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="500.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="520.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="540.0" y="715" width="15.4" height="7" rx="1" fill="#2c2a26"/><rect x="0" y="708" width="540" height="7" fill="url(#steelH)"/><rect x="0" y="708" width="540" height="1.5" fill="#d8d5cc" fill-opacity=".7"/><rect x="105.64" y="648" width="6" height="60" fill="url(#steel)"/><rect x="168.36" y="648" width="6" height="60" fill="url(#steel)"/><rect x="84.0" y="558" width="112" height="96" rx="7" fill="#ffc61a" stroke="#0b0b0a" stroke-width="1"/><rect x="89.0" y="563" width="102" height="86" rx="4" fill="none" stroke="#191816" stroke-width="2.5"/><text x="140" y="632.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="76" fill="#191816">21</text><circle cx="108.64" cy="570" r="2.6" fill="#55524b"/><circle cx="171.36" cy="570" r="2.6" fill="#55524b"/><rect x="365.64" y="648" width="6" height="60" fill="url(#steel)"/><rect x="428.36" y="648" width="6" height="60" fill="url(#steel)"/><rect x="344.0" y="558" width="112" height="96" rx="7" fill="#f2f0ea" stroke="#0b0b0a" stroke-width="1"/><rect x="349.0" y="563" width="102" height="86" rx="4" fill="none" stroke="#191816" stroke-width="2.5"/><text x="400" y="632.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="76" fill="#191816">0</text><circle cx="368.64" cy="570" r="2.6" fill="#55524b"/><circle cx="431.36" cy="570" r="2.6" fill="#55524b"/><rect x="354" y="660" width="92" height="24" rx="4" fill="#f2f0ea" stroke="#0b0b0a"/><rect x="357" y="663" width="86" height="18" rx="2.5" fill="none" stroke="#191816" stroke-width="1.5"/><text x="400" y="677" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="13" letter-spacing="1.3" fill="#191816">WARNS ONLY</text></svg><div class="abs" style="left:20px;width:240px;top:224px;text-align:center"><div class="cond" style="font-weight:700;font-size:21px;letter-spacing:.05em;text-transform:uppercase">Risk rules</div><div style="margin-top:3px;font-size:15px;color:var(--grey)">narrow, high-signal</div></div><div class="abs" style="left:280px;width:240px;top:224px;text-align:center"><div class="cond" style="font-weight:700;font-size:21px;letter-spacing:.05em;text-transform:uppercase">Tests passing</div><div style="margin-top:3px;font-size:15px;color:var(--grey)">29 hook + 7 launcher</div></div><div class="abs" style="left:20px;width:240px;top:486px;text-align:center"><div class="cond" style="font-weight:700;font-size:21px;letter-spacing:.05em;text-transform:uppercase">Agents</div><div style="margin-top:3px;font-size:15px;color:var(--grey)">reviewer and verifier</div></div><div class="abs" style="left:280px;width:240px;top:486px;text-align:center"><div class="cond" style="font-weight:700;font-size:21px;letter-spacing:.05em;text-transform:uppercase">Verdicts</div><div style="margin-top:3px;font-size:15px;color:var(--grey)">per checked claim</div></div><div class="abs" style="left:20px;width:240px;top:748px;text-align:center"><div class="cond" style="font-weight:700;font-size:21px;letter-spacing:.05em;text-transform:uppercase">Subcommands</div><div style="margin-top:3px;font-size:15px;color:var(--grey)">never get the bypass</div></div><div class="abs" style="left:280px;width:240px;top:748px;text-align:center"><div class="cond" style="font-weight:700;font-size:21px;letter-spacing:.05em;text-transform:uppercase">Hard blocks</div><div style="margin-top:3px;font-size:15px;color:var(--grey)">the hook only warns</div></div></div></body></html>

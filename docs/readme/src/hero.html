@@ -1,72 +1,80 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>hero</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=block" rel="stylesheet"><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>hero</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&family=Red+Hat+Mono:wght@400;500;600;700&display=block" rel="stylesheet"><style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: transparent; }
-body { font-family: Inter, sans-serif; color: #f3f5f8; -webkit-font-smoothing: antialiased;
-  font-feature-settings: 'cv11', 'ss01'; }
-:root { --accent: #ff6b4a; --accent-hi: #ff9a7a; --ok: #4ade80; --text: #f3f5f8; --body: #c9cfd8;
-  --muted: #9aa3b0; --dim: #6f7885; --faint: #4a515c; --line: rgba(255,255,255,.08); }
+body { font-family: Barlow, sans-serif; color: var(--white); -webkit-font-smoothing: antialiased; }
+:root { --asphalt: #141413; --asphalt-2: #1b1b19; --asphalt-3: #252522; --white: #f2f0ea; --grey: #a5a297; --dim: #75726a;
+  --faint: #4a4842; --yellow: #ffc61a; --red: #e2231a; --red-hi: #ff5a48; --paper: #ece6d8; --paper-2: #e2dbca;
+  --ink: #191816; --ink-2: #4f4b44; --ink-3: #8a857a; --rule: #d3cab5; }
 
-.card { position: relative; overflow: hidden; border-radius: 28px; isolation: isolate;
-  background:
-    radial-gradient(var(--gw, 900px) var(--gh, 520px) at var(--gx, 50%) var(--gy, -10%), rgba(255, 107, 74, .14), transparent 70%),
-    radial-gradient(620px 440px at var(--ax, 100%) var(--ay, 112%), rgba(255, 107, 74, .06), transparent 70%),
-    linear-gradient(180deg, #0d1014, #08090b); }
-.card::before { content: ''; position: absolute; inset: 0; z-index: -1;
-  background-image: radial-gradient(rgba(255, 255, 255, .075) 1px, transparent 1.4px); background-size: 24px 24px;
-  -webkit-mask-image: radial-gradient(var(--gw, 900px) var(--gh, 520px) at var(--gx, 50%) var(--gy, -10%), #000, transparent 75%); }
-.card.flat::after { border-radius: 0; box-shadow: none; }
-.card::after { content: ''; position: absolute; inset: 0; border-radius: 28px; z-index: 30; pointer-events: none;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .085), inset 0 1px 0 rgba(255, 255, 255, .06); }
+.field { position: relative; overflow: hidden; isolation: isolate; background: var(--asphalt); }
+.field::after { content: ''; position: absolute; inset: 0; z-index: 40; pointer-events: none; opacity: .045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: screen; }
+.paper { position: relative; overflow: hidden; isolation: isolate; background: var(--paper); color: var(--ink); }
+.paper::after { content: ''; position: absolute; inset: 0; z-index: 40; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: multiply; filter: invert(1); }
+.abs { position: absolute; }
+.cond { font-family: 'Barlow Condensed', sans-serif; }
+.mono, .term { font-family: 'Red Hat Mono', monospace; font-variant-ligatures: none; }
+.term { white-space: pre; }
+.ln { display: block; }
+.label { font: 700 13px/1 'Barlow Condensed', sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+svg { display: block; overflow: visible; }
 
-.brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.03em; }
-.brand svg { display: block; filter: drop-shadow(0 8px 22px rgba(255, 107, 74, .45)); }
-h1 { font-weight: 800; letter-spacing: -.048em; line-height: 1; color: #f6f8fa; }
-.grad { background: linear-gradient(95deg, #ffa183, #ff6b4a 55%, #f2502e); -webkit-background-clip: text;
-  background-clip: text; color: transparent; }
-.lede { color: var(--muted); font-weight: 500; line-height: 1.45; letter-spacing: -.01em; }
-.pills { display: flex; gap: 12px; justify-content: center; }
-.pill { display: inline-flex; align-items: center; gap: 9px; height: 42px; padding: 0 20px; border-radius: 999px;
-  font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
-.pill.go { background: var(--accent); color: #1c0904; box-shadow: 0 10px 34px -10px rgba(255, 107, 74, .7); }
-.pill.ghost { color: #d4dae2; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .03); }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(74, 222, 128, .18); }
-.center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+/* shell colouring on asphalt */
+.c { color: var(--white); font-weight: 600; }
+.f { color: #cfcabd; }
+.s { color: #edd08a; }
+.o { color: var(--dim); }
+.k { color: var(--grey); }
+.n { color: var(--yellow); }
+.v { color: #ece9e1; }
+.mut { color: var(--dim); }
+.hit { color: var(--white); font-weight: 700; }
+.red { color: var(--red-hi); }
+.yel { color: var(--yellow); }
+/* on paper */
+.paper .c { color: var(--ink); font-weight: 700; }
+.paper .f { color: #3d3a34; }
+.paper .s { color: #7a5600; }
+.paper .o { color: var(--ink-3); }
+.paper .mut { color: var(--ink-3); }
+.paper .red { color: #c41d14; }
+.paper .field { color: #dedad0; }
+.paper .field .c { color: var(--white); } .paper .field .f { color: #cfcabd; } .paper .field .s { color: #edd08a; }
+.paper .field .o { color: var(--dim); } .paper .field .mut { color: var(--dim); }
+.wrap .ln { white-space: pre-wrap; padding-left: 16px; text-indent: -16px; }
 
-.win { position: relative; border-radius: 13px; overflow: hidden; background: #0a0c10;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .11), 0 44px 80px -32px rgba(0, 0, 0, .9), 0 18px 36px -18px rgba(0, 0, 0, .6); }
-.bar { position: relative; height: 34px; display: flex; align-items: center; gap: 7px; padding: 0 14px;
-  background: #12151a; border-bottom: 1px solid rgba(255, 255, 255, .06); }
-.bar i { width: 11px; height: 11px; border-radius: 50%; background: #2b3038; }
-.bar .t { position: absolute; left: 0; right: 0; text-align: center; font-size: 12.5px; font-weight: 500; color: #7d8693;
-  letter-spacing: .01em; }
-.term { font-family: 'JetBrains Mono', monospace; color: #d7dce3; white-space: pre; font-variant-ligatures: none; }
-.term .ln { display: block; }
-.p { color: var(--accent); font-weight: 700; }
-.cwd { color: #7d8693; }
-.c { color: #f3f5f8; font-weight: 600; }
-.f { color: #8ea0b8; }
-.s { color: #e2c08d; }
-.o { color: #6f7885; }
-.k { color: #8ea0b8; }
-.n { color: #b6a4f0; }
-.v { color: #e9edf2; }
-.mut { color: #6f7885; }
-.ok { color: var(--ok); }
-.warn { color: var(--accent); }
-.b { font-weight: 700; color: #f6f8fa; }
-
-.label { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-.chip { display: inline-flex; align-items: center; gap: 7px; height: 24px; padding: 0 10px; border-radius: 999px;
-  font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.chip.flag { color: #ffb4a1; background: rgba(255, 107, 74, .12); box-shadow: inset 0 0 0 1px rgba(255, 107, 74, .35); }
-.chip.allow { color: #9ef0bb; background: rgba(74, 222, 128, .10); box-shadow: inset 0 0 0 1px rgba(74, 222, 128, .30); }
-.chip i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-</style></head><body style="width:1200px"><div class="card" style="width:1200px;padding:0;--gw:1100px;--gh:620px;--gy:-14%"><div class="center" style="padding-top:60px"><div class="brand" style="font-size:24px"><svg width="36" height="36" viewBox="0 0 48 48" aria-hidden="true">
-<defs><linearGradient id="lg36" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffa080"/>
-<stop offset="1" stop-color="#ef4b2a"/></linearGradient>
-<clipPath id="bc36"><rect x="7" y="13" width="34" height="12" rx="3"/></clipPath></defs>
-<rect width="48" height="48" rx="13" fill="url(#lg36)"/>
-<g fill="#1d0a05"><rect x="12" y="22" width="4.6" height="15" rx="1.6"/><rect x="31.4" y="22" width="4.6" height="15" rx="1.6"/>
-<rect x="9" y="35" width="10.6" height="3.4" rx="1.7"/><rect x="28.4" y="35" width="10.6" height="3.4" rx="1.7"/>
-<rect x="7" y="13" width="34" height="12" rx="3"/></g>
-<g clip-path="url(#bc36)" fill="#ffd9cc"><path d="M9 25 17 13h5l-8 12z"/><path d="M19 25 27 13h5l-8 12z"/><path d="M29 25 37 13h5l-8 12z"/></g></svg>agent-guardrails</div><h1 style="margin-top:36px;font-size:74px">Give your coding agent <span class="grad">a lead.</span></h1><p class="lede" style="margin-top:22px;font-size:21px;max-width:860px">A reviewer and a verifier that check the work independently, and a hook that flags risky shell commands before they run. Built for Claude Code.</p><div class="pills" style="margin-top:30px"><span class="pill go">Quickstart &rarr;</span><span class="pill ghost"><span class="dot"></span>36 tests passing</span></div></div><div style="margin-top:52px;padding-bottom:64px"><div class="win" style="width:1056px;margin:0 auto"><div class="bar"><i></i><i></i><i></i><span class="t">PreToolUse on Bash  ·  .claude/hooks/advisory-guard.sh</span></div><div class="term" style="padding:0;font-size:15px;line-height:1.6"><div style="display:grid;grid-template-columns:1.32fr 1fr;white-space:normal"><div style="padding:24px 28px 6px;border-right:1px solid rgba(255,255,255,.07);background:linear-gradient(180deg,rgba(255,107,74,.06),transparent 55%)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;font-family:Inter"><span class="chip flag"><i></i>Flagged &middot; 2</span><span style="font-size:12.5px;color:#6f7885;font-weight:500">warning added to the agent&rsquo;s context</span></div><div class="ev" style="margin-bottom:22px"><div style="display:flex;align-items:baseline;gap:12px"><span class="warn" style="font-weight:700">&#9650;</span><span style="font-size:17px"><span class="c">rm</span> <span class="f">-rf</span> ./build ~/</span></div><div style="margin:10px 0 0 6px;padding:2px 0 2px 18px;border-left:2px solid rgba(255,107,74,.55);white-space:normal;color:#c9cfd8;font-size:14px;line-height:1.6">Advisory (non-blocking): this command looks like it involves <b class="b">recursive force-delete</b>. Proceeding, but double-check the target/scope before it runs again unattended.</div><div class="mut" style="margin:9px 0 0 26px;font-size:12px">additionalContext &middot; exit 0 &middot; no permissionDecision</div></div><div class="ev" style="margin-bottom:22px"><div style="display:flex;align-items:baseline;gap:12px"><span class="warn" style="font-weight:700">&#9650;</span><span style="font-size:17px"><span class="c">curl</span> <span class="f">-fsSL</span> https://example.com/install.sh <span class="o">|</span> <span class="c">sh</span></span></div><div style="margin:10px 0 0 6px;padding:2px 0 2px 18px;border-left:2px solid rgba(255,107,74,.55);white-space:normal;color:#c9cfd8;font-size:14px;line-height:1.6">Advisory (non-blocking): this command looks like it involves <b class="b">piping a remote download straight into a shell</b>. Proceeding, but double-check the target/scope before it runs again unattended.</div><div class="mut" style="margin:9px 0 0 26px;font-size:12px">additionalContext &middot; exit 0 &middot; no permissionDecision</div></div></div><div style="padding:24px 28px 6px;background:linear-gradient(180deg,rgba(74,222,128,.045),transparent 55%)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;font-family:Inter"><span class="chip allow"><i></i>Allowed &middot; 4</span><span style="font-size:12.5px;color:#6f7885;font-weight:500">hook stays silent</span></div><div style="margin-bottom:20px"><div style="display:flex;align-items:baseline;gap:12px"><span class="ok" style="font-weight:700">&#10003;</span><span style="font-size:16px"><span class="c">npm</span> test</span></div><div class="mut" style="margin:6px 0 0 26px;font-size:12px">no output &middot; exit 0</div></div><div style="margin-bottom:20px"><div style="display:flex;align-items:baseline;gap:12px"><span class="ok" style="font-weight:700">&#10003;</span><span style="font-size:16px"><span class="c">rm</span> <span class="f">-r</span> old-dir</span></div><div class="mut" style="margin:6px 0 0 26px;font-size:12px">no output &middot; exit 0</div></div><div style="margin-bottom:20px"><div style="display:flex;align-items:baseline;gap:12px"><span class="ok" style="font-weight:700">&#10003;</span><span style="font-size:16px"><span class="c">chmod</span> 755 script.sh</span></div><div class="mut" style="margin:6px 0 0 26px;font-size:12px">no output &middot; exit 0</div></div><div style="margin-bottom:20px"><div style="display:flex;align-items:baseline;gap:12px"><span class="ok" style="font-weight:700">&#10003;</span><span style="font-size:16px"><span class="c">git</span> push <span class="f">--force-with-lease</span></span></div><div class="mut" style="margin:6px 0 0 26px;font-size:12px">no output &middot; exit 0</div></div></div></div></div></div></div></div></body></html>
+/* a reflective sign plate: black face, white keyline, four bolts */
+.plate { position: relative; background: #0c0c0b; border-radius: 12px;
+  box-shadow: inset 0 0 0 6px #0c0c0b, inset 0 0 0 8.5px var(--white), 0 22px 40px -22px #000; }
+.plate.yellow { background: var(--yellow); color: var(--ink);
+  box-shadow: inset 0 0 0 5px var(--yellow), inset 0 0 0 7.5px var(--ink), 0 22px 40px -22px #000; }
+.plate.white { background: var(--white); color: var(--ink);
+  box-shadow: inset 0 0 0 5px var(--white), inset 0 0 0 7.5px var(--ink), 0 22px 40px -22px #000; }
+.bolt { position: absolute; width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e4e1d8, #8a877f 55%, #3a3834); box-shadow: 0 1px 1.5px rgba(0,0,0,.55); }
+.bolt::after { content: ''; position: absolute; left: 1.5px; right: 1.5px; top: 3.75px; height: 1.5px;
+  background: rgba(20, 20, 18, .7); transform: rotate(var(--r, 20deg)); }
+</style></head><body style="width:1100px"><div class="field" style="width:1100px;height:790px"><svg class="abs" style="left:0;top:0;" width="1100" height="790" viewBox="0 0 1100 790"><defs>
+<radialGradient id="lensOn" cx="44%" cy="40%" r="62%"><stop offset="0" stop-color="#fff6ea"/><stop offset=".16" stop-color="#ff9a78"/>
+<stop offset=".48" stop-color="#f22b1d"/><stop offset="1" stop-color="#8a0b05"/></radialGradient>
+<radialGradient id="lensOff" cx="44%" cy="38%" r="64%"><stop offset="0" stop-color="#5e1913"/><stop offset=".65" stop-color="#36100c"/>
+<stop offset="1" stop-color="#1e0705"/></radialGradient>
+<radialGradient id="amberOff" cx="44%" cy="38%" r="64%"><stop offset="0" stop-color="#5a4210"/><stop offset=".65" stop-color="#35270a"/>
+<stop offset="1" stop-color="#1d1505"/></radialGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#ff4130" stop-opacity=".62"/><stop offset=".3" stop-color="#ff2a1a" stop-opacity=".2"/>
+<stop offset="1" stop-color="#ff2a1a" stop-opacity="0"/></radialGradient>
+<radialGradient id="wash"><stop offset="0" stop-color="#ff2a1a" stop-opacity=".16"/><stop offset="1" stop-color="#ff2a1a" stop-opacity="0"/></radialGradient>
+<linearGradient id="steel" x1="0" x2="1"><stop offset="0" stop-color="#2f2e2b"/><stop offset=".3" stop-color="#8f8c84"/>
+<stop offset=".5" stop-color="#6c6a63"/><stop offset="1" stop-color="#262523"/></linearGradient>
+<linearGradient id="steelH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f8c84"/><stop offset=".45" stop-color="#5d5b55"/>
+<stop offset="1" stop-color="#262523"/></linearGradient>
+<linearGradient id="armShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/>
+<stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset=".75" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".38"/></linearGradient>
+<linearGradient id="box" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1d1d1b"/><stop offset=".4" stop-color="#3a3935"/>
+<stop offset="1" stop-color="#161615"/></linearGradient>
+<pattern id="armStripe" width="60" height="60" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)">
+<rect width="30" height="60" fill="#e2231a"/><rect x="30" width="30" height="60" fill="#f2f0ea"/></pattern>
+<pattern id="hazard" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+<rect width="11" height="22" fill="#ffc61a"/><rect x="11" width="11" height="22" fill="#121211"/></pattern>
+</defs><circle cx="122" cy="296" r="340" fill="url(#wash)"/><ellipse cx="176" cy="734" rx="260" ry="40" fill="url(#wash)"/><rect x="0" y="704" width="1100" height="86" fill="#1c1c1a"/><rect x="0" y="704" width="1100" height="1.5" fill="#fff" fill-opacity=".07"/><path d="M-19 721 H1100" stroke="#f2f0ea" stroke-opacity=".62" stroke-width="5" stroke-dasharray="38 26"/><rect x="166.0" y="140" width="20" height="564" fill="url(#steel)"/><rect x="163.0" y="634" width="26" height="70" fill="url(#hazard)"/><rect x="163.0" y="634" width="26" height="70" fill="url(#steel)" opacity=".28"/><g transform="translate(176 140) rotate(-38)"><rect x="-116.0" y="-20.0" width="232" height="40" rx="4.8" fill="#f2f0ea" stroke="#0b0b0a" stroke-width="1.5"/><rect x="-112.0" y="-16.0" width="224.0" height="32.0" rx="2.8" fill="none" stroke="#191816" stroke-width="1.8"/><text x="-62.6" y="8.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="24.0" letter-spacing="2.0" fill="#191816">BASH</text><text x="62.6" y="8.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="24.0" letter-spacing="2.0" fill="#191816">ONLY</text></g><g transform="translate(176 140) rotate(38)"><rect x="-116.0" y="-20.0" width="232" height="40" rx="4.8" fill="#f2f0ea" stroke="#0b0b0a" stroke-width="1.5"/><rect x="-112.0" y="-16.0" width="224.0" height="32.0" rx="2.8" fill="none" stroke="#191816" stroke-width="1.8"/><text x="-62.6" y="8.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="24.0" letter-spacing="2.0" fill="#191816">CROSS</text><text x="62.6" y="8.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="24.0" letter-spacing="2.0" fill="#191816">ING</text></g><circle cx="176" cy="140" r="6.0" fill="url(#steel)" stroke="#0b0b0a" stroke-width="1"/><rect x="68.5" y="234.3" width="215.0" height="99.0" rx="49.5" fill="#0b0b0a" stroke="#f2f0ea" stroke-width="3.0"/><circle cx="121.0" cy="283.84000000000003" r="138.0" fill="url(#glow)"/><path d="M85.2 283.8 A36.0 36.0 0 0 1 156.8 283.8 Z" fill="#050505"/><circle cx="121.0" cy="283.84000000000003" r="30" fill="url(#lensOn)"/><circle cx="121.0" cy="283.84000000000003" r="21.0" fill="none" stroke="#ffd9c9" stroke-opacity="0.32" stroke-width="1.2"/><circle cx="121.0" cy="283.84000000000003" r="12.6" fill="none" stroke="#ffd9c9" stroke-opacity="0.32" stroke-width="1.2"/><circle cx="121.0" cy="283.84000000000003" r="57.0" fill="url(#glow)" style="mix-blend-mode:screen"/><path d="M195.2 283.8 A36.0 36.0 0 0 1 266.8 283.8 Z" fill="#050505"/><circle cx="231.0" cy="283.84000000000003" r="30" fill="url(#lensOff)"/><circle cx="231.0" cy="283.84000000000003" r="21.0" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="1.2"/><circle cx="231.0" cy="283.84000000000003" r="12.6" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="1.2"/><ellipse cx="221.4" cy="273.0" rx="9.0" ry="4.8" transform="rotate(-30 221.4 273.0)" fill="#fff" fill-opacity=".14"/><rect x="148.0" y="456" width="56.0" height="91.80000000000001" rx="5" fill="url(#box)" stroke="#0b0b0a" stroke-width="1.2"/><rect x="153.0" y="462" width="46.0" height="3" rx="1.5" fill="#fff" fill-opacity=".08"/><circle cx="176" cy="487.2" r="11.2" fill="url(#steel)" stroke="#0b0b0a"/><rect x="124.0" y="471.2" width="74" height="47.6" rx="3" fill="url(#box)" stroke="#0b0b0a"/><rect x="130.0" y="475.2" width="17.7" height="39.6" rx="1.5" fill="#2b2a27"/><rect x="150.7" y="475.2" width="17.7" height="39.6" rx="1.5" fill="#2b2a27"/><rect x="171.3" y="475.2" width="17.7" height="39.6" rx="1.5" fill="#2b2a27"/><rect x="198.0" y="478" width="664" height="34" rx="17.0" fill="url(#armStripe)"/><rect x="198.0" y="478" width="664" height="34" rx="17.0" fill="url(#armShade)" stroke="#0b0b0a" stroke-width="1.2"/><rect x="404.7" y="451.1" width="30.6" height="29.4" rx="6.1" fill="#0b0b0a"/><circle cx="420" cy="465.76" r="9.792000000000002" fill="url(#lensOff)"/><circle cx="420" cy="465.76" r="6.9" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="0.8"/><circle cx="420" cy="465.76" r="4.1" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="0.8"/><ellipse cx="416.9" cy="462.2" rx="2.9" ry="1.6" transform="rotate(-30 416.9 462.2)" fill="#fff" fill-opacity=".14"/><rect x="624.7" y="451.1" width="30.6" height="29.4" rx="6.1" fill="#0b0b0a"/><circle cx="640" cy="465.76" r="9.792000000000002" fill="url(#lensOff)"/><circle cx="640" cy="465.76" r="6.9" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="0.8"/><circle cx="640" cy="465.76" r="4.1" fill="none" stroke="#6f2219" stroke-opacity="0.55" stroke-width="0.8"/><ellipse cx="636.9" cy="462.2" rx="2.9" ry="1.6" transform="rotate(-30 636.9 462.2)" fill="#fff" fill-opacity=".14"/><rect x="830.7" y="451.1" width="30.6" height="29.4" rx="6.1" fill="#0b0b0a"/><circle cx="846" cy="465.76" r="45.0" fill="url(#glow)"/><circle cx="846" cy="465.76" r="9.792000000000002" fill="url(#lensOn)"/><circle cx="846" cy="465.76" r="6.9" fill="none" stroke="#ffd9c9" stroke-opacity="0.32" stroke-width="0.8"/><circle cx="846" cy="465.76" r="4.1" fill="none" stroke="#ffd9c9" stroke-opacity="0.32" stroke-width="0.8"/><circle cx="846" cy="465.76" r="18.6" fill="url(#glow)" style="mix-blend-mode:screen"/><path d="M868 475.0 v40 M1064 475.0 v40 M870 495 H1062" stroke="#ffc61a" stroke-width="1.5" fill="none"/><path d="M877 490 l-7 5 7 5 M1055 490 l7 5 -7 5" fill="none" stroke="#ffc61a" stroke-width="1.5"/></svg><div class="plate abs" style="left:90.0px;top:348px;width:172px;height:86px;display:flex;flex-direction:column;align-items:center;justify-content:center"><i class="bolt" style="left:9px;top:9px;width:7px;height:7px;--r:18deg"></i><i class="bolt" style="right:9px;top:9px;width:7px;height:7px;--r:-34deg"></i><i class="bolt" style="left:9px;bottom:9px;width:7px;height:7px;--r:62deg"></i><i class="bolt" style="right:9px;bottom:9px;width:7px;height:7px;--r:7deg"></i><div class="cond" style="font-weight:800;font-size:34px;line-height:1;letter-spacing:.06em">LOOK</div><div style="margin-top:3px;font-weight:600;font-size:14.5px">when lights show</div></div><div class="abs" style="left:420px;top:96px;width:660px"><div class="cond" style="font-weight:800;font-size:98px;line-height:.9;letter-spacing:-.005em;white-space:nowrap">agent-guardrails</div><div style="margin-top:26px;font-weight:500;font-size:31px;line-height:1.22;letter-spacing:-.005em;max-width:600px">A level crossing between your coding agent and your machine.</div><div style="margin-top:18px;font-size:18.5px;line-height:1.5;color:var(--grey);max-width:570px">Most commands cross in silence. A risky one gets the barrier, the lights and a sign in the agent&rsquo;s own context. Nothing is locked.</div></div><div class="abs" style="left:870px;top:530px;width:194px"><div class="label yel">Half barrier</div><div style="margin-top:8px;font-size:14.5px;line-height:1.42;color:#d9d5ca">The gap is the design. The hook warns; your permission rules decide.</div></div><div class="abs" style="left:258px;top:542px;width:580px"><div class="label red" style="display:flex;align-items:center;gap:10px"><svg width="13" height="12.0" viewBox="0 0 13 12"><path d="M6.5 0 13 12H0z" fill="#e2231a"/></svg>Held at the barrier</div><div class="term" style="margin-top:12px;font-size:44px;line-height:1;letter-spacing:-.01em"><span class="c">rm</span> <span class="f">-rf</span> ./build ~/</div><div class="mono" style="margin-top:15px;font-size:14.5px;line-height:1.55;color:var(--grey)">Advisory (non-blocking): this command looks like it involves <b class="hit">recursive force-delete</b>. Proceeding, but double-check the target/scope before it runs again unattended.</div></div><div class="abs" style="left:56px;top:744px;right:24px;display:flex;align-items:baseline;gap:22px"><span class="label" style="color:var(--dim);white-space:nowrap">Crossed in silence</span><span style="white-space:nowrap"><span style="display:inline-flex;align-items:baseline;gap:9px;margin-right:24px;white-space:nowrap"><span class="term" style="font-size:13.5px"><span class="c">npm</span> test</span><span class="mono" style="font-size:10.5px;color:var(--dim)">exit 0</span></span><span style="display:inline-flex;align-items:baseline;gap:9px;margin-right:24px;white-space:nowrap"><span class="term" style="font-size:13.5px"><span class="c">rm</span> <span class="f">-r</span> old-dir</span><span class="mono" style="font-size:10.5px;color:var(--dim)">exit 0</span></span><span style="display:inline-flex;align-items:baseline;gap:9px;margin-right:24px;white-space:nowrap"><span class="term" style="font-size:13.5px"><span class="c">chmod</span> 755 script.sh</span><span class="mono" style="font-size:10.5px;color:var(--dim)">exit 0</span></span><span style="display:inline-flex;align-items:baseline;gap:9px;margin-right:24px;white-space:nowrap"><span class="term" style="font-size:13.5px"><span class="c">git</span> push <span class="f">--force-with-lease</span></span><span class="mono" style="font-size:10.5px;color:var(--dim)">exit 0</span></span></span></div></div></body></html>
