@@ -1,0 +1,9 @@
+{
+ "rules": 7,
+ "tests": 36,
+ "guard": 29,
+ "launcher": 7,
+ "agents": 2,
+ "subcommands": 22,
+ "ci": 5
+}

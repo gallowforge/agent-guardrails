@@ -1,0 +1,59 @@
+/* The pages the Glass windows show: terminals (always dark) and documents (dark and light). */
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=block");
+html, body { margin: 0; }
+body { box-sizing: border-box; -webkit-font-smoothing: antialiased; overflow: hidden; }
+
+/* terminal */
+body.term { background: #0a0d12; padding: 22px 26px 24px; font: 400 13.4px/1.68 "Geist Mono", monospace; color: #c3ccd8; }
+.term .l { white-space: pre-wrap; overflow-wrap: anywhere; }
+.term .gap { height: 12px; }
+.term .p { color: #6f7b8b; }
+.term .c { color: #f1f4f8; font-weight: 500; }
+.term .t { color: #eef2f7; font-weight: 500; }
+.term .d { color: #7d8898; }
+.term .f { color: #5d6878; }
+.term .hi { color: var(--hi); font-weight: 600; }
+.term .ok { color: var(--ok, #6fe0b0); font-weight: 500; }
+.term .w { color: var(--warn, #f3c06b); }
+.term .m { color: #9db0d0; }
+
+/* document */
+body.doc { padding: 34px 40px 36px; font: 400 14px/1.62 "Geist", sans-serif; }
+body.doc.dark { background: #0b0e14; color: #b9c2cf; }
+body.doc.light { background: #f7f7f5; color: #3a3f48; }
+.doc .mono, .doc code { font-family: "Geist Mono", monospace; font-size: 0.9em; }
+.doc.dark code { color: #dfe5ee; background: #161b24; padding: 1px 5px; border-radius: 5px; }
+.doc.light code { color: #23262c; background: #e9e9e5; padding: 1px 5px; border-radius: 5px; }
+.doc h1 { font: 600 25px/1.18 "Geist", sans-serif; letter-spacing: -0.03em; margin: 0 0 18px; }
+.doc.dark h1, .doc.dark h3, .doc.dark b { color: #f2f5f9; }
+.doc.light h1, .doc.light h3, .doc.light b { color: #111318; }
+.doc h3 { font: 600 14px/1.3 "Geist", sans-serif; letter-spacing: -0.01em; margin: 20px 0 6px; }
+.doc h3 span { font-weight: 400; opacity: 0.55; }
+.doc p { margin: 0 0 10px; }
+.doc ol, .doc ul { margin: 0 0 10px; padding-left: 22px; }
+.doc li { margin: 0 0 4px; }
+.doc .kick { font: 500 10px/1 "Geist", sans-serif; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.55; margin-bottom: 12px; }
+.doc .props { display: grid; grid-template-columns: 96px 1fr; gap: 5px 14px; font: 400 12.4px/1.45 "Geist Mono", monospace; padding: 14px 16px; border-radius: 10px; margin: 0 0 22px; }
+.doc.dark .props { background: #11151d; }
+.doc.light .props { background: #ececea; }
+.doc .props .k { opacity: 0.55; }
+.doc .fold { display: flex; align-items: center; gap: 8px; font: 500 12.6px/1 "Geist", sans-serif; padding: 9px 12px; border-radius: 8px; margin: 8px 0 10px; }
+.doc.dark .fold { background: #11151d; color: #aab4c2; }
+.doc.light .fold { background: #ececea; color: #555b66; }
+.doc .fold::before { content: ""; width: 0; height: 0; border-left: 5px solid currentColor; border-top: 4px solid transparent; border-bottom: 4px solid transparent; opacity: 0.7; }
+.doc .box { display: inline-block; width: 11px; height: 11px; border-radius: 3px; vertical-align: -1px; margin-right: 9px; }
+.doc.dark .box { box-shadow: inset 0 0 0 1.4px #5b6676; }
+.doc.light .box { box-shadow: inset 0 0 0 1.4px #9aa0aa; }
+.doc .hi { color: var(--hi); }
+.doc.light .hi { color: var(--hi-day); }
+/* the line a scene lifts out of its window gets air around it, so nothing peeks under the glass */
+.term [data-lift]:not(span), .term .lifted { margin: 14px 0 30px; }
+.term span[data-lift] { display: inline-block; }
+/* a source file, as an editor shows it */
+body.doc.code { padding: 26px 30px 28px 18px; font: 400 12.8px/1.62 "Geist Mono", monospace; }
+.code .ln { display: block; white-space: pre-wrap; padding-left: 40px; text-indent: -40px; }
+.code .n { display: inline-block; width: 30px; margin-right: 10px; text-align: right; opacity: 0.32; text-indent: 0; }
+.code .file { font: 500 10px/1 "Geist", sans-serif; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.5; margin: 0 0 16px 12px; }
+.code.dark .cm { color: #6d7787; } .code.light .cm { color: #8a909a; }
+.code.dark .s { color: #e8c991; } .code.light .s { color: #8a5a10; }
+.code.dark .kw { color: #f2f5f9; font-weight: 500; } .code.light .kw { color: #111318; font-weight: 600; }

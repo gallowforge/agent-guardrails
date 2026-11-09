@@ -1,23 +1,15 @@
-# Identity: the level crossing
+# agent-guardrails: the README's look
 
-**One idea.** agent-guardrails is a level crossing between a coding agent and your machine. Most traffic crosses in silence. A risky command meets a lowered barrier, flashing lights and a sign, and the sign is the hook's real warning. It is a half barrier on purpose: the hook warns and never blocks, and the drawings say so.
+**Family.** The README is drawn in Glass, the language of the gallowforge profile: real output as frosted-glass windows floating in a dark, softly lit space, with the one line that matters lifted out of its window toward you. aih, agent-guardrails and bwtidy share the renderer, the type and the composition grammar; each has its own accent light.
 
-**Motif.** Railway and road signage, drawn face on and in signal-box diagrams: the crossbuck (it reads BASH ONLY / CROSSING, because the hook matches the Bash tool), twin red lamps, a red and white striped arm, a LOOK when lights show plate where the real one says STOP, lineside number boards, warning triangles with supplementary plates, a keepers' track panel with two lit signal boxes, a junction for the launcher, a train register for sessions and an inspection certificate for the tests. Hazard stripes appear once, at the foot of the post.
+**The idea.** A warning, never a wall. The hero pipes one risky command into the real hook and lifts its advisory out of the terminal, with `echo $?` printing 0 underneath: the command is flagged and still allowed.
 
-**Type.** Barlow and Barlow Condensed: a slightly rounded grotesk drawn from California highway signs, whose condensed width plays the role DIN 1451 Engschrift plays on European signs. One family in two widths gives sign legends and body text. Red Hat Mono is used for every command and line of output; its open, round shapes sit with Barlow, so a command reads as part of the sign.
+**Accent.** Amber, the colour of caution rather than stop, because nothing in this kit blocks: `#ffc370` on dark windows, `#9a5c06` on light pages, and a pool of `#b8740f` light behind the glass. It marks only what the hook flagged and the one line each scene is about. There is no red anywhere.
 
-**Palette.** 60 / 30 / 10.
+**Type.** Geist for headings and copy, Geist Mono for every line of output and every file.
 
-| Role | Colour | Hex |
-| --- | --- | --- |
-| Field | Asphalt | `#141413` |
-| Support | Safety yellow | `#ffc61a` |
-| Support | Reflective white | `#f2f0ea` |
-| Accent, spent only on danger: lit lamps, the arm, flagged commands, stamps | Signal red | `#e2231a` |
-| Printed matter (rulebook, register, certificate) | Paper / ink | `#ece6d8` / `#191816` |
+**Themes.** Each image has a dark version (on GitHub's `#0d1117`) and a light one (on `#ffffff`), with phone crops; the edges dissolve into the page. Terminals stay dark in both themes; the agent files, `settings.json` and `bin/claude` are dark pages in the dark version and light pages in the light one.
 
-**Voice.** Stern, with dry humour. Short declaratives in sign grammar ("Every match still runs.", "Nobody marks their own homework.", "The gate opens only for a person."). Jokes come from accuracy, never from exaggeration: the half-barrier dimension line, NO SCRIPTS beyond this point, a WARNS ONLY plate under the zero, SPECIMEN stamped on the agents' report formats.
+**Truth.** `scripts/readme-visuals.py` runs the hook, every CI step, both test suites and `claude-sessions` (on an invented project) for real and writes their output word for word into `docs/readme/src/tex/`. The agent and source files are shown as they are in the repository. Every number in the copy is counted from the hook, the tests or the agents folder.
 
-**Signature visual.** The barrier arm lowered across `rm -rf ./build ~/`, with the hook's exact `additionalContext` underneath, the near misses (`rm -r old-dir`, `chmod 755 script.sh`) crossing in silence at exit 0, and a yellow dimension line measuring the gap the agent can still drive through.
-
-**Truth.** Every command, warning, count, test line and session row is produced by `scripts/readme-visuals.py` from real runs. The report formats in the keepers' image are marked SPECIMEN because they come from the agent files, not from a run.
+**Rebuild.** `python3 scripts/readme-visuals.py`. The renderer is `docs/readme/src/glass/`: `scene.js` (three.js compositor), `grammar.js` (light, glass, type and compositions), `layouts.js` (this README's scenes) and `glass.cjs` (textures, scenes and WebP).

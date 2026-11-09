@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="tex.css"><body class="term " style="width:560px;--hi:#ffc370;--hi-day:#9a5c06;--ok:#ffc370;--warn:#ffc370">
+<div class="l"><span class="p">$</span> <span class="c">bash tests/test-guard.sh -v | head -n 9</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="w">warn</span>   <span class="t">rm -rf /tmp/build</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="w">warn</span>   <span class="t">rm -fr node_modules</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="w">warn</span>   <span class="t">sudo rm -Rf --one-file-system /srv/data</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="d">allow</span>  <span class="t">rm -r old-dir</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="d">allow</span>  <span class="t">rm notes.txt</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="w">warn</span>   <span class="t">git push --force origin main</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="w">warn</span>   <span class="t">git push origin main -f</span></div>
+<div class="l lifted"><span data-lift="key"><span class="ok">ok</span>    <span class="d">allow</span>  <span class="t">git push --force-with-lease origin feature</span></span></div>
+<div class="l"><span class="ok">ok</span>    <span class="d">allow</span>  <span class="t">git push origin main</span></div>
+</body>

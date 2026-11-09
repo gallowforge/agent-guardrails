@@ -1,0 +1,22 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="tex.css"><body class="doc code dark" style="width:640px;--hi:#ffc370;--hi-day:#9a5c06;--ok:#ffc370;--warn:#ffc370">
+<div class="file">bin/claude</div>
+<span class="ln"><span class="n">48</span>inject=1</span>
+<span class="ln"><span class="n">49</span><span class="cm"># Interactive only: both stdin and stdout must be a terminal.</span></span>
+<span class="ln"><span class="n">50</span>{ [ -t 0 ] &amp;&amp; [ -t 1 ]; } || inject=0</span>
+<span class="ln"><span class="n">51</span><span class="cm"># Defer to any permission flag the caller supplied, and to print mode.</span></span>
+<span class="ln"><span class="n">52</span><span class="kw">for</span> arg <span class="kw">in</span> <span class="s">&quot;$@&quot;</span>; <span class="kw">do</span></span>
+<span class="ln"><span class="n">53</span>  <span class="kw">case</span> <span class="s">&quot;$arg&quot;</span> <span class="kw">in</span></span>
+<span class="ln"><span class="n">54</span>    --dangerously-skip-permissions|--permission-mode|--permission-mode=*|-p|--print)</span>
+<span class="ln"><span class="n">55</span>      inject=0 ;;</span>
+<span class="ln"><span class="n">56</span>  <span class="kw">esac</span></span>
+<span class="ln"><span class="n">57</span><span class="kw">done</span></span>
+<span class="ln"><span class="n">58</span><span class="cm"># Never inject ahead of a subcommand -- it stops being parsed as one.</span></span>
+<span class="ln"><span class="n">59</span><span class="kw">if</span> [ <span class="s">&quot;$#&quot;</span> -gt 0 ]; <span class="kw">then</span></span>
+<span class="ln"><span class="n">60</span>  <span class="kw">for</span> _c <span class="kw">in</span> $subcommands; <span class="kw">do</span></span>
+<span class="ln"><span class="n">61</span>    <span class="kw">if</span> [ <span class="s">&quot;$1&quot;</span> = <span class="s">&quot;$_c&quot;</span> ]; <span class="kw">then</span></span>
+<span class="ln"><span class="n">62</span>      inject=0</span>
+<span class="ln"><span class="n">63</span>      <span class="kw">break</span></span>
+<span class="ln"><span class="n">64</span>    <span class="kw">fi</span></span>
+<span class="ln"><span class="n">65</span>  <span class="kw">done</span></span>
+<span class="ln"><span class="n">66</span><span class="kw">fi</span></span>
+</body>

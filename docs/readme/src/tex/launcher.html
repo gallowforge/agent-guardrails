@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="tex.css"><body class="term " style="width:700px;--hi:#ffc370;--hi-day:#9a5c06;--ok:#ffc370;--warn:#ffc370">
+<div class="l"><span class="p">$</span> <span class="c">bash tests/test-launcher.sh -v</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="d">non-interactive: no flag   </span> <span class="t">ARGS:hello</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="d">print mode: no flag        </span> <span class="t">ARGS:-p hi</span></div>
+<div class="l lifted"><span data-lift="key"><span class="ok">ok</span>    <span class="d">interactive: flag injected </span> <span class="t">ARGS:--dangerously-skip-permissions hello</span></span></div>
+<div class="l"><span class="ok">ok</span>    <span class="d">interactive -p: no flag    </span> <span class="t">ARGS:-p hi</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="d">explicit mode wins         </span> <span class="t">ARGS:--permission-mode plan</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="d">subcommand: no flag        </span> <span class="t">ARGS:mcp list</span></div>
+<div class="l"><span class="ok">ok</span>    <span class="d">bare interactive: flag     </span> <span class="t">ARGS:--dangerously-skip-permissions</span></div>
+<div class="l">launcher: <span class="ok">7 passed, 0 failed</span></div>
+</body>

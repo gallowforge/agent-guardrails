@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="tex.css"><body class="doc code light" style="width:780px;--hi:#ffc370;--hi-day:#9a5c06;--ok:#ffc370;--warn:#ffc370">
+<div class="file">.claude/settings.json</div>
+<span class="ln"><span class="n">1</span>{</span>
+<span class="ln"><span class="n">2</span>  <span class="s">&quot;hooks&quot;</span>: {</span>
+<span class="ln"><span class="n">3</span>    <span class="s">&quot;PreToolUse&quot;</span>: [</span>
+<span class="ln"><span class="n">4</span>      {</span>
+<span class="ln"><span class="n">5</span>        <span class="s">&quot;matcher&quot;</span>: <span class="s">&quot;Bash&quot;</span>,</span>
+<span class="ln"><span class="n">6</span>        <span class="s">&quot;hooks&quot;</span>: [</span>
+<span class="ln"><span class="n">7</span>          {</span>
+<span class="ln"><span class="n">8</span>            <span class="s">&quot;type&quot;</span>: <span class="s">&quot;command&quot;</span>,</span>
+<span class="ln"><span class="n">9</span>            <span class="s">&quot;command&quot;</span>: <span class="s">&quot;sh \&quot;</span>$CLAUDE_PROJECT_DIR\<span class="s">&quot;/.claude/hooks/advisory-guard.sh&quot;</span>,</span>
+<span class="ln"><span class="n">10</span>            <span class="s">&quot;timeout&quot;</span>: 5</span>
+<span class="ln"><span class="n">11</span>          }</span>
+<span class="ln"><span class="n">12</span>        ]</span>
+<span class="ln"><span class="n">13</span>      }</span>
+<span class="ln"><span class="n">14</span>    ]</span>
+<span class="ln"><span class="n">15</span>  }</span>
+<span class="ln"><span class="n">16</span>}</span>
+<span class="ln"><span class="n">17</span> </span>
+</body>

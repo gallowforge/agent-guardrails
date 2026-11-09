@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Glass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400;500&display=block" rel="stylesheet">
+<style>
+  html, body { margin: 0; overflow: hidden; background: #000; }
+  canvas { position: absolute; left: 0; top: 0; display: block; }
+  #type { position: absolute; inset: 0; pointer-events: none; font-family: "Geist", sans-serif;
+    -webkit-font-smoothing: antialiased; font-feature-settings: "ss01" 0; text-rendering: geometricPrecision; }
+  #type .el { position: absolute; white-space: nowrap; }
+  .name { font-weight: 600; letter-spacing: -0.047em; line-height: 1; }
+  .head { font-weight: 600; letter-spacing: -0.038em; line-height: 1.04; white-space: normal !important; }
+  .line { font-weight: 400; letter-spacing: -0.011em; line-height: 1.38; }
+  .body { font-weight: 400; letter-spacing: -0.008em; line-height: 1.5; white-space: normal !important; }
+  .kick { font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
+  .fine, .cmd { font-family: "Geist Mono", monospace; font-weight: 400; letter-spacing: -0.01em; }
+  .fact b { display: block; font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
+  .fact span { display: block; font-weight: 400; letter-spacing: -0.003em; line-height: 1.4; }
+  .body code, .line code { font-family: "Geist Mono", monospace; font-size: 0.9em; letter-spacing: -0.02em; }
+  .body code, .copy code { white-space: nowrap; }
+  .copy { white-space: normal !important; }
+  .copy .k { font-size: var(--ks); font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--c-kick); }
+  .copy .h { font-size: var(--hs); font-weight: 600; letter-spacing: -0.038em; line-height: 1.04; color: var(--c-head); margin-top: var(--gap1); }
+  .copy .b { font-size: var(--bs); font-weight: 400; letter-spacing: -0.008em; line-height: 1.5; color: var(--c-body); margin-top: var(--gap2); }
+  .copy code { font-family: "Geist Mono", monospace; font-size: 0.9em; letter-spacing: -0.02em; }
+  .rule { position: absolute; height: 1px; }
+</style>
+<script type="importmap">{ "imports": { "three": "/three/three.module.js" } }</script>
+</head><body>
+<canvas id="c"></canvas>
+<div id="type"></div>
+<script type="module" src="./scene.js"></script>
+</body></html>

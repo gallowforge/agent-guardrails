@@ -1,0 +1,8 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="tex.css"><body class="term " style="width:620px;--hi:#ffc370;--hi-day:#9a5c06;--ok:#ffc370;--warn:#ffc370">
+<div class="l"><span class="p">$</span> <span class="d">payload=&#x27;{&quot;hook_event_name&quot;: &quot;PreToolUse&quot;, &quot;tool_name&quot;: &quot;Bash&quot;, &quot;tool_input&quot;: {&quot;command&quot;: &quot;rm -rf ~/.ssh &amp;&amp; chmod 777 .&quot;}}&#x27;</span></div>
+<div class="l"><span class="p">$</span> <span class="c">echo &quot;$payload&quot; | sh .claude/hooks/advisory-guard.sh</span></div>
+<div class="gap"></div>
+<div class="l lifted"><span class="d">{&quot;hookSpecificOutput&quot;: {&quot;hookEventName&quot;: &quot;PreToolUse&quot;, "additionalContext": "</span><span data-lift="key"><span class="w">Advisory (non-blocking): this command looks like it involves recursive force-delete; world-writable permissions; touching a credentials/key path.</span></span><span class="d"> Proceeding, but double-check the target/scope before it runs again unattended.&quot;}}</span></div>
+<div class="l"><span class="p">$</span> <span class="c">echo $?</span></div>
+<div class="l"><span class="ok">0</span></div>
+</body>

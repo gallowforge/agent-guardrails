@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# README image build output (textures and frames)
+docs/readme/.build/
