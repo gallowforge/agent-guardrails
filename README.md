@@ -31,7 +31,7 @@ A coding agent will run `rm -rf` on the wrong directory, push over a shared bran
 
 <picture>
   <source media="(max-width: 700px)" srcset="docs/readme/numbers-mobile.webp" />
-  <img src="docs/readme/numbers.webp" width="100%" alt="Six lineside boards beside a railway track: 7 risk rules, 36 tests passing (29 hook and 7 launcher), 2 agents, 4 verdicts per checked claim, 21 subcommands that never get the bypass flag, and 0 hard blocks, on a white board with a WARNS ONLY plate: the hook only warns." />
+  <img src="docs/readme/numbers.webp" width="100%" alt="Six lineside boards beside a railway track: 7 risk rules, 36 tests passing (29 hook and 7 launcher), 2 agents, 4 verdicts per checked claim, 22 subcommands that never get the bypass flag, and 0 hard blocks, on a white board with a WARNS ONLY plate: the hook only warns." />
 </picture>
 
 <br />
@@ -122,7 +122,7 @@ branch). Source: https://git-scm.com/docs/git-push
 
 - **A person at the keyboard.** Both stdin and stdout must be a terminal, so scripts, cron jobs, hooks, CI and piped runs never inherit a session without prompts.
 - **Your flags win.** `-p`, `--print`, `--permission-mode` or your own `--dangerously-skip-permissions` turn the injection off.
-- **Subcommands stay subcommands.** Claude Code only parses a word as a subcommand when it comes before any root flag. Injecting the flag first would turn `claude attach <id>` into a new session with "attach" as the prompt, so the 21 known subcommands are left alone.
+- **Subcommands stay subcommands.** Claude Code only parses a word as a subcommand when it comes before any root flag. Injecting the flag first would turn `claude attach <id>` into a new session with "attach" as the prompt, so the 22 known subcommands are left alone.
 
 <picture>
   <source media="(max-width: 700px)" srcset="docs/readme/launcher-mobile.webp" />
@@ -224,7 +224,7 @@ bash tests/test-launcher.sh   # launcher: 7 passed, 0 failed
 | Why no `permissionDecision`? | `allow` would skip the prompt for the riskiest commands and `deny` would turn a tripwire into a gate. Leaving it out keeps the normal flow. |
 | Why `sh` that calls `python3`? | JSON parsing and a lookahead (`--force` but not `--force-with-lease`) without depending on `jq`. The `sh` wrapper lets it exit 0 quietly when `python3` is missing. |
 | How does the launcher find the real `claude`? | It removes its own directory from `PATH`, resolves `claude` with `command -v`, and `exec`s it. If none is found it exits 127. |
-| How does it decide? | `[ -t 0 ] && [ -t 1 ]`, then a scan of every argument for the print and permission flags, then `$1` against the 21 subcommands. |
+| How does it decide? | `[ -t 0 ] && [ -t 1 ]`, then a scan of every argument for the print and permission flags, then `$1` against the 22 subcommands. |
 | Where do sessions live? | `$CLAUDE_CONFIG_DIR/projects/<current path with every non-alphanumeric character as ->/*.jsonl`, with `~/.claude` as the default. |
 | How is a session titled? | The last `ai-title` record wins; otherwise the first user message; trimmed to 58 characters. |
 | What keeps the agents independent? | Each runs in its own context with its own tool list: `reviewer` gets Read, Grep, Glob and Bash; `verifier` adds WebFetch and WebSearch. |

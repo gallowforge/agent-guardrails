@@ -17,6 +17,7 @@
 # interactive session with "attach" submitted as the prompt.
 # Regenerate the list after a Claude Code upgrade with:
 #   claude --help | sed -n '/^Commands:/,$p' | grep -E '^  [a-z]' | awk '{print $1}'
+# and keep hidden commands that still parse, such as `project`.
 #
 # To disable: remove this file or take its directory off PATH.
 
@@ -39,9 +40,9 @@ if [ -z "$real" ]; then
   exit 127
 fi
 
-# Subcommands as of Claude Code 2.1.261, aliases expanded.
+# Subcommands as of Claude Code 2.1.319, aliases expanded.
 subcommands="agents attach auth auto-mode doctor gateway import install logs
-mcp plugin plugins project respawn rm setup-token stop kill ultrareview
+mcp plugin plugins project purge respawn rm setup-token stop kill ultrareview
 update upgrade"
 
 inject=1
