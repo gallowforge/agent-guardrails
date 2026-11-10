@@ -12,13 +12,15 @@ Nothing in the images is typed by hand. The script:
   4. writes that output, and the real agent, settings and launcher files, as
      terminal and document pages in docs/readme/src/tex/;
   5. renders them as Glass scenes (docs/readme/src/glass/glass.cjs): frosted-glass
-     windows in a dark and a light version, for desktop and phone, as WebP.
+     windows in a dark and a light version, for desktop and phone, as WebP. The hero
+     is a loop in which the command is typed and the hook's reply arrives; every other
+     image is a still.
 
     python3 scripts/readme-visuals.py           # everything
     python3 scripts/readme-visuals.py --pages   # steps 1 to 4 only
 
 Needs python3, bash, sh, util-linux script(1), shellcheck, node with `playwright`
-and `three` (0.170) on NODE_PATH, ImageMagick, and network access for the fonts.
+and `three` (0.170) on NODE_PATH, ImageMagick, ffmpeg, and network access for the fonts.
 """
 import html
 import json

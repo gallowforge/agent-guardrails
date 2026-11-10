@@ -2,6 +2,8 @@
 // The same renderer as the gallowforge profile. A small custom compositor on three.js: environment light -> per-window backdrop blur ->
 // glass shader (frost, bevel refraction, chromatic edge, rim light, keyed app content) -> bloom -> composite.
 // Everything is a periodic function of one phase, so any loop length closes perfectly.
+// A layout with `play` also replays its terminal (grammar.js, replay): the finished page is shown up
+// to the edge the run has reached, so the command types, the output arrives and the key line lifts.
 import * as THREE from 'three';
 import { build } from './layouts.js';
 const LAYOUTS = build(await (await fetch('/shots/manifest.json')).json());
@@ -250,7 +252,7 @@ uniform sampler2D tContent; uniform float uHasContent; uniform vec4 uCRect; unif
 uniform vec3 uKey; uniform float uKeyAmt; uniform float uLodBias; uniform float uDefocus;
 uniform float uNight; uniform vec3 uTintAdd; uniform float uTransmit; uniform float uFog; uniform vec3 uFogCol;
 uniform vec3 uLightPos; uniform float uRim; uniform float uSpec; uniform vec3 uGlowCol; uniform float uGlow; uniform float uShadow;
-uniform vec4 uShadowOff; uniform vec4 uHole; uniform float uBar; uniform float uContentGain; uniform float uRefract; uniform float uPhase; uniform float uCaustic;
+uniform vec4 uShadowOff; uniform vec4 uHole; uniform float uHoleAmt; uniform float uAppear; uniform vec4 uPlay; uniform vec4 uKeep; uniform vec4 uCursor; uniform float uBar; uniform float uContentGain; uniform float uRefract; uniform float uPhase; uniform float uCaustic;
 varying vec2 vLocal; varying vec3 vViewPos; varying vec3 vT; varying vec3 vB; varying vec3 vN;
 
 vec3 spectral(float x){ return clamp(vec3(abs(x * 6.0 - 3.0) - 1.0, 2.0 - abs(x * 6.0 - 2.0), 2.0 - abs(x * 6.0 - 4.0)), 0.0, 1.0); }
@@ -352,9 +354,16 @@ void main(){
         float a = clamp(max(ap.r, max(ap.g, ap.b)), 0.0, 1.0);
         vec3 fg = uKey + diff / max(a, 1e-3);
         vec3 under = mix(uKey, c, uKeyAmt);
+        // a replayed run: rows above uPlay.y have arrived, the row down to uPlay.z is typed as far as uPlay.x, the rest is
+        // still to come. uPlay.w fades what is being cleared; the lines above uKeep.y and the first prompt stay.
+        vec2 tp = vec2(uCrop.x + uv.x * uCrop.z, uCrop.y + (1.0 - uv.y) * uCrop.w);   // texture px, y down
+        bool there = tp.y < uPlay.y || (tp.y < uPlay.z && tp.x < uPlay.x);
+        bool kept = tp.y < uKeep.y || (tp.y < uKeep.z && tp.x < uKeep.x);
+        a *= there ? (kept ? 1.0 : uPlay.w) : 0.0;
+        if (tp.x >= uCursor.x && tp.x < uCursor.z && tp.y >= uCursor.y && tp.y < uCursor.w) { a = 0.92; fg = vec3(0.74, 0.78, 0.84); }
         if (uHole.z > uHole.x) {   // where a card was lifted out, the window keeps only clear glass and a faint ghost
           float dh = sdRoundBox(p - (uHole.xy + uHole.zw) * 0.5, (uHole.zw - uHole.xy) * 0.5, 12.0);
-          float hm = 1.0 - smoothstep(-5.0, 7.0, dh);
+          float hm = (1.0 - smoothstep(-5.0, 7.0, dh)) * uHoleAmt;
           a *= mix(1.0, 0.10, hm); under = mix(under, c, hm * 0.85 * smoothstep(0.2, 0.5, uKeyAmt));
         }
         vec3 app = mix(under, clamp(fg, 0.0, 1.0), a) * uContentGain;
@@ -380,7 +389,7 @@ void main(){
     c = mix(c, uFogCol, uFog);
     col = mix(col * (1.0 - m), c, m); alpha = mix(alpha, 1.0, m);
   }
-  gl_FragColor = vec4(col, alpha);   // premultiplied
+  gl_FragColor = vec4(col, alpha) * uAppear;   // premultiplied; a lifted line fades in as it leaves its window
 }`;
 
 function makeWindow(spec, tex) {
@@ -410,7 +419,8 @@ function makeWindow(spec, tex) {
     uShadow: { value: spec.shadow ?? TH.glass.shadow }, uBar: { value: spec.bar === false ? 0 : 1 },
     uContentGain: { value: spec.gain ?? 1 }, uRefract: { value: (spec.refract ?? 26) * DPR * SS }, uPhase: { value: 0 },
     uCaustic: { value: TH.glass.caustic ?? 0 },
-    uHole: { value: new THREE.Vector4() },
+    uHole: { value: new THREE.Vector4() }, uHoleAmt: { value: 1 }, uAppear: { value: 1 },
+    uPlay: { value: new THREE.Vector4(0, 1e5, 1e5, 1) }, uKeep: { value: new THREE.Vector4() }, uCursor: { value: new THREE.Vector4() },
     uShadowOff: { value: spec.shadowOff ? new THREE.Vector4(spec.shadowOff[0], spec.shadowOff[1], 1, spec.shadowOff[2]) : new THREE.Vector4() },
   };
   if (spec.glowColor) uniforms.uGlowCol.value = new THREE.Color(spec.glowColor);
@@ -536,11 +546,23 @@ async function init() {
 
 function renderAt(phase) {
   const th = phase * Math.PI * 2;
+  // the replay: where the run stands at this moment, and how far out of its window the key line is (0 to 1)
+  const st = LAYOUT.play ? LAYOUT.play(phase) : null;
+  const out = st ? st.o : 1, rise = out * out * (3 - 2 * out), show = Math.min(1, out * 2.5);
+  if (st) for (const w of windows) {
+    const s = w.spec, u = w.mat.uniforms;
+    if (!(s.play || (s.parentRef && s.parentRef.spec.play))) continue;
+    u.uPlay.value.set(st.e[0], st.e[1], st.e[2], st.f); u.uKeep.value.set(...LAYOUT.keep, 0); u.uCursor.value.set(...(st.c || [0, 0, 0, 0]));
+    if (s.parentRef) u.uAppear.value = show;
+    else { u.uHoleAmt.value = show; if (st.s != null) u.uCrop.value.y = st.s; }
+  }
   const cam = LAYOUT.cam || [12, 5];
   camera.position.set(Math.sin(th) * cam[0], Math.sin(th * 2) * cam[1] * 0.5 + Math.cos(th) * cam[1] * 0.5, D);
   camera.lookAt(0, 0, 0);
   camera.updateMatrixWorld();
-  ENV.uniforms.uPhase.value = phase;
+  // a hero that replays holds its light and its dust still: only the run moves
+  const air = LAYOUT.play ? 0 : phase;
+  ENV.uniforms.uPhase.value = air;
   ENV.uniforms.uCamOff.value.set(-camera.position.x / CW * 0.08, -camera.position.y / CH * 0.08);
   // place the windows, then tell the wall where their shadows fall
   const v = new THREE.Vector3();
@@ -570,23 +592,25 @@ function renderAt(phase) {
   const M = new THREE.Matrix4(), R = new THREE.Matrix4();
   for (const w of windows) {
     const s = w.spec; if (!s.parentRef) continue;
-    const lift = (s.lift ?? 60) + Math.sin(th + (s.breathe ? s.breathe[1] : 0.4) * 6.283) * (s.breathe ? s.breathe[0] : 8);
+    const played = st && s.parentRef.spec.play;
+    const lift = ((s.lift ?? 60) + Math.sin(th + (s.breathe ? s.breathe[1] : 0.4) * 6.283) * (s.breathe ? s.breathe[0] : 8) * (LAYOUT.float ?? 1)) * (played ? rise : 1);
     const r = s.rot || [0, 0, 0];
     M.copy(s.parentRef.mesh.matrixWorld).multiply(R.makeTranslation(s.local[0] + (s.shift ? s.shift[0] : 0), s.local[1] + (s.shift ? s.shift[1] : 0), lift));
     M.multiply(R.makeRotationFromEuler(new THREE.Euler(THREE.MathUtils.degToRad(r[0]), THREE.MathUtils.degToRad(r[1]), THREE.MathUtils.degToRad(r[2] || 0))));
     w.mesh.matrix.copy(M); w.mesh.matrixWorld.copy(M);
   }
   pass(ENV, rtScene);
-  for (const m of [motesFar]) { m.mat.uniforms.uPhase.value = phase; renderer.setRenderTarget(rtScene); renderer.render(m.scene, camera); }
+  for (const m of [motesFar]) { m.mat.uniforms.uPhase.value = air; renderer.setRenderTarget(rtScene); renderer.render(m.scene, camera); }
   for (const w of windows) {
     const s = w.spec;
     if (Q.has('nowin')) continue;
+    if (st && s.parentRef && s.parentRef.spec.play && show <= 0) continue;   // the key line is still in its window
     const bl = blurChain(rtScene, down, up, s.frostLevels ?? TH.glass.levels, 1.0);
     w.mat.uniforms.tFrost.value = bl.frost.texture; w.mat.uniforms.tSharp.value = bl.sharp.texture;
-    w.mat.uniforms.uPhase.value = phase;
+    w.mat.uniforms.uPhase.value = air;
     renderer.setRenderTarget(rtScene); renderer.render(w.scene, camera);
   }
-  motesNear.mat.uniforms.uPhase.value = phase; renderer.setRenderTarget(rtScene); renderer.render(motesNear.scene, camera);
+  motesNear.mat.uniforms.uPhase.value = air; renderer.setRenderTarget(rtScene); renderer.render(motesNear.scene, camera);
   // bloom
   const bl = blurChain(rtScene, bDown, bUp, 6, 1.0, TH.bloomThresh ?? 0.8);
   COMP.uniforms.tBloom.value = bl.frost.texture;

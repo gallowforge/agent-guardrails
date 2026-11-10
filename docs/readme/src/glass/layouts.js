@@ -1,7 +1,7 @@
 // agent-guardrails in Glass: every composition of the README. The windows show real hook, test
 // and launcher output and the real agent files (see scripts/readme-visuals.py). The accent light
 // is amber: a caution, never a stop, because nothing in this kit blocks.
-import { lights, term, doc, lift, hero, heroPhone, panel, panelPhone, band, bandPhone, social } from './grammar.js';
+import { lights, term, doc, lift, hero, heroPhone, panel, panelPhone, band, bandPhone, social, replay } from './grammar.js';
 
 const A = { ray: '#e9d6b2', pool: '#b8740f', deep: '#3d2c12', lift: '#d08a22', top: '#0b0c10', haze: '#1e1d21', fog: '#0c0c0f',
   mote: '#fff0d8', day: '#f5f3ef', shade: '#efece7', dayFog: '#f5f3ef' };
@@ -12,6 +12,7 @@ export function build(M) {
   const dk = (n) => (n ? '#0B0E14' : '#F7F7F5');
   const HERO = {
     name: 'agent-guardrails', h: 600, hp: 640, namePhone: '40px',
+    replay: replay(M.hook, { frames: 96, keep: 1 }),    // the loop: the payload stays, the hook is run on it and its warning arrives
     line: 'Independent review for coding agents, and a warning before a risky command runs.',
     linePhone: 'Independent review for coding agents,<br>and a warning before a risky command runs.',
     win: (n, ph) => {
@@ -22,7 +23,7 @@ export function build(M) {
       return [
         term(M, 'guard-all', P.s, n, A, { ...far }),
         doc(M, 'verifier', P.d, n, A, { ...far, breathe: [14, 0.7] }),
-        term(M, 'hook', P.m, n, A, { breathe: [10, 0.4], bezel: 10, glow: 0.75 }),
+        term(M, 'hook', P.m, n, A, { play: true, breathe: [10, 0.4], bezel: 10, glow: 0.75 }),
         lift(M, 2, 'hook', 'key', n, A, { lift: ph ? 60 : 90, breathe: [12, 0.85] }),
       ];
     },

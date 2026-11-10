@@ -7,10 +7,13 @@
 // 1. Textures. Every page in docs/readme/src/tex/ holds real output, written there by the capture
 //    script. Each is screenshotted at 2x into docs/readme/.build/shots/, and the box of every
 //    element marked data-lift="key" is recorded in shots/manifest.json, so a scene can lift that
-//    exact line out of its window.
+//    exact line out of its window. For a terminal page the box of every line and of every typed
+//    character of a command is recorded too, so the hero can replay the run from that one texture.
 // 2. Scenes. layouts.js places the textures as frosted-glass windows (scene.js, three.js + WebGL).
-//    Each layout renders dark (on #0d1117) and light (on #ffffff); a layout with `anim` also
-//    renders a seamless loop. ImageMagick and ffmpeg write the WebP files into docs/readme/.
+//    Each layout renders dark (on #0d1117) and light (on #ffffff). A layout with `anim` renders a
+//    seamless loop instead of a still: the hero, where the glass holds still and the terminal
+//    replays its run (grammar.js, replay). ImageMagick writes the stills and ffmpeg the loop
+//    (encodeLoop, below) into docs/readme/.
 //
 // Needs node with `playwright` and `three` (0.170) resolvable through NODE_PATH, plus ImageMagick
 // and ffmpeg. Nothing is installed into the repository.
@@ -44,17 +47,71 @@ async function textures(browser) {
         const r = rg.getBoundingClientRect();
         lift[el.dataset.lift] = [r.left, r.top, r.width, r.height];
       }
-      return { w: b.width, h: b.height, lift };
+      // a terminal: where each line sits, and each character a command types (x0, x1, row top, row bottom)
+      const lines = [];
+      if (document.body.classList.contains('term')) {
+        const lh = parseFloat(getComputedStyle(document.body).lineHeight);
+        let last = null;
+        for (const el of document.querySelectorAll('.l')) {
+          const r = el.getBoundingClientRect(), p = el.querySelector(':scope > .p');
+          const line = { y: [r.top, r.bottom], gap: last !== null && r.top - last > 4, blank: !el.textContent.trim() };
+          last = r.bottom;
+          if (p) {
+            line.chars = [];
+            const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+            for (let nd = tw.nextNode(); nd; nd = tw.nextNode()) {
+              if (p.contains(nd)) continue;
+              for (let i = 0; i < nd.data.length; i++) {
+                if (!line.chars.length && !nd.data[i].trim()) continue;        // the space after the prompt
+                const rg = document.createRange(); rg.setStart(nd, i); rg.setEnd(nd, i + 1);
+                const c = rg.getBoundingClientRect(), row = Math.max(0, Math.floor((c.top + c.height / 2 - r.top) / lh));
+                line.chars.push([c.left, c.right, r.top + row * lh, r.top + (row + 1) * lh]);
+              }
+            }
+          }
+          lines.push(line);
+        }
+      }
+      return { w: b.width, h: b.height, lift, lines };
     });
     await page.screenshot({ path: path.join(SHOTS, name + '.png'), clip: { x: 0, y: 0, width: info.w, height: info.h } });
     const k = TEXDPR, px = (a) => a.map(v => Math.round(v * k));
     manifest[name] = { w: Math.round(info.w * k), h: Math.round(info.h * k), lift: Object.fromEntries(Object.entries(info.lift).map(([n, r]) => [n, px(r)])) };
+    if (info.lines.length) manifest[name].lines = info.lines.map(l => ({ ...l, y: px(l.y), ...(l.chars ? { chars: l.chars.map(px) } : {}) }));
     await ctx.close();
   }
   const facts = path.join(TEX, 'facts.json');       // numbers measured by the capture, for the copy
   if (fs.existsSync(facts)) manifest.facts = JSON.parse(fs.readFileSync(facts, 'utf8'));
   fs.writeFileSync(path.join(SHOTS, 'manifest.json'), JSON.stringify(manifest, null, 1));
   console.log('textures:', Object.keys(manifest).length);
+}
+
+// A loop as an animated WebP. The first frame is encoded whole, as a still would be. Every later
+// frame carries only the blocks that differ from what the viewer already has (ffmpeg's conditional
+// replenishment; libwebp_anim compares each frame with the one before it instead, so a slow fade
+// never arrives and leaves a ghost). Those later frames get a flat quantiser (-preset icon), four
+// points higher: the default spends the fewest bits on the busiest blocks of a frame, and in a
+// frame that is mostly empty the busiest blocks are the ones being sent, which then land as patches
+// on smooth glass. ffmpeg keeps one setting for a whole file, so the frames are encoded with each
+// and the first frame of one file is set in front of the later frames of the other.
+function encodeLoop(dir, fps, q, out) {
+  const enc = (more, to) => execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(fps), '-i', path.join(dir, 'f%04d.png'),
+    '-pix_fmt', 'yuva420p', '-c:v', 'libwebp', '-lossless', '0', '-compression_level', '6', '-cr_threshold', '64', '-cr_size', '8',
+    '-g', '100000', '-loop', '0', ...more, to]);
+  const first = path.join(dir, 'first.webp'), rest = path.join(dir, 'rest.webp');
+  enc(['-quality', String(q), '-frames:v', '2'], first);
+  enc(['-quality', String(Math.min(100, q + 4)), '-preset', 'icon'], rest);
+  const chunks = (f) => {                               // the RIFF chunks after the 12 byte file header
+    const d = fs.readFileSync(f), c = [];
+    for (let p = 12; p < d.length;) { const n = 8 + d.readUInt32LE(p + 4), e = p + n + (n & 1); c.push(d.subarray(p, e)); p = e; }
+    return c;
+  };
+  const frame = (c) => c.toString('latin1', 0, 4) === 'ANMF';
+  const A = chunks(first), B = chunks(rest);
+  const body = Buffer.concat([...B.filter(c => !frame(c)), A.find(frame), ...B.filter(frame).slice(1)]);
+  const head = Buffer.alloc(12); head.write('RIFF', 0, 'latin1'); head.writeUInt32LE(4 + body.length, 4); head.write('WEBP', 8, 'latin1');
+  fs.writeFileSync(out, Buffer.concat([head, body]));
+  fs.rmSync(first); fs.rmSync(rest);
 }
 
 async function scene(browser, layout, theme, L, frames, dir) {
@@ -108,8 +165,8 @@ async function scene(browser, layout, theme, L, frames, dir) {
         if (L.anim) {
           await scene(browser, layout, theme, L, L.anim.frames, dir);
           const out = path.join(README, name + '.webp');
-          execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(L.anim.fps), '-i', path.join(dir, 'f%04d.png'),
-            '-c:v', 'libwebp_anim', '-lossless', '0', '-quality', String(L.anim.q), '-compression_level', '6', '-loop', '0', out]);
+          const q = [].concat(L.anim.q);
+          encodeLoop(dir, L.anim.fps, q[theme === 'dark' ? 0 : q.length - 1], out);
           console.log(name + '.webp', (fs.statSync(out).size / 1e6).toFixed(2) + ' MB', ((Date.now() - t0) / 1000).toFixed(1) + 's');
           continue;
         }
