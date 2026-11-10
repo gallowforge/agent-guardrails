@@ -41,7 +41,7 @@ export function build(M) {
     },
   };
   const AGENTS = {
-    kick: 'Agents', head: 'Nobody marks their own homework', hw: 320,
+    kick: 'Agents', head: 'Nobody reviews their own work', hw: 320,
     body: 'Two subagents check the work in a fresh context. <code>reviewer</code> reads the actual diff and cites file:line; <code>verifier</code> checks claims against primary sources and gives each a verdict.',
     win: (n, ph) => {
       const P = ph ? { a: { x: 140, y: 380, w: 220, z: -90, rot: [2, -12, 0] }, b: { x: 250, y: 440, w: 230, z: 50, rot: [0, -12, 0] } }
